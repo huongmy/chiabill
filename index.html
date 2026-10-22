@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chia Tiền & Xuất Bill QR - ChiaBill Pro</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2canvas for high-res export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- QRCode.js fallback -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              purple: '#6B21A8',
+              maroon: '#642634',
+              navy: '#1E3A8A',
+              cream: '#FAF6F0',
+              creamAlt: '#F3ECE3'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F8FAFC;
+      color: #1E293B;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-100/70 text-slate-800 flex flex-col">
+
+  <!-- Header Navbar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-purple-500/20">
+          💸
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg text-slate-900 leading-tight">ChiaBill Pro</h1>
+          <p class="text-xs text-slate-500 font-medium">Tạo bill chia tiền & mã QR thanh toán chuẩn đẹp</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btnLoadSampleTeam" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition flex items-center gap-1.5 shadow-2xs">
+          <span>✨</span> Xem mẫu Team Building (15 người)
+        </button>
+        <button id="btnReset" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 transition">
+          Xóa trắng
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: Form Inputs (7 cols) -->
+    <div class="lg:col-span-7 space-y-6">
+
+      <!-- 1. Sự kiện & Chủ đề -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">1</span>
+            Thông tin sự kiện & Giao diện bill
+          </h2>
+          <span class="text-xs text-slate-400">Tùy biến tiêu đề và màu sắc hóa đơn</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="md:col-span-2">
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tên sự kiện / Tiêu đề hóa đơn</label>
+            <input type="text" id="eventTitle" value="CHIA TIỀN ĂN UỐNG" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold uppercase tracking-wide focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Màu chủ đạo bill</label>
+            <select id="cardTheme" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 font-medium focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition">
+              <option value="violet" selected>Màu Tím (Mặc định)</option>
+              <option value="maroon">Đỏ Mận (Classic)</option>
+              <option value="navy">Xanh Navy (Hiện đại)</option>
+              <option value="emerald">Xanh Rêu (Tinh tế)</option>
+              <option value="slate">Xám Đen (Tối giản)</option>
+              <option value="amber">Cam Nắng (Năng động)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Danh sách khoản chi -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">2</span>
+            Danh sách các khoản chi tiêu
+          </h2>
+          <div class="text-right">
+            <span class="text-xs text-slate-500 font-medium">Tổng tiền:</span>
+            <span id="labelTotalExpense" class="text-sm font-extrabold text-amber-600 ml-1">0 đ</span>
+          </div>
+        </div>
+
+        <!-- Expense Rows Container -->
+        <div id="expenseList" class="space-y-2.5 mb-3">
+          <!-- Dynamically inserted expense item rows -->
+        </div>
+
+        <button id="btnAddExpense" class="w-full py-2.5 border border-dashed border-slate-300 hover:border-purple-400 rounded-xl text-xs font-semibold text-slate-600 hover:text-purple-700 hover:bg-purple-50/50 transition flex items-center justify-center gap-1.5">
+          <span>➕</span> Thêm món / khoản chi tiêu mới
+        </button>
+      </div>
+
+      <!-- 3. Thành viên & Cách chia tiền -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <div>
+            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">3</span>
+              Thành viên & Cơ chế chia tiền
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Ai đã ứng trước, ai đóng cố định, ai chia đều</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-500 font-medium">Tổng số người:</span>
+            <span id="labelMemberCount" class="text-sm font-bold text-emerald-700 ml-1">0</span>
+          </div>
+        </div>
+
+        <!-- Quick Input Box -->
+        <div class="mb-4 bg-purple-50/40 p-3.5 rounded-xl border border-purple-100">
+          <label class="block text-xs font-semibold text-purple-900 mb-1.5 flex items-center justify-between">
+            <span>⚡ Nhập nhanh danh sách tên (cách nhau bằng dấu phẩy hoặc xuống dòng):</span>
+            <span class="text-[11px] text-purple-600/80 font-normal">Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D...</span>
+          </label>
+          <div class="flex gap-2">
+            <input type="text" id="quickNamesInput" placeholder="Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D, Bạn E..." class="flex-1 bg-white border border-purple-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-200">
+            <button id="btnQuickAdd" class="px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition shadow-2xs shrink-0">
+              Nhập nhanh
+            </button>
+          </div>
+        </div>
+
+        <!-- Rounding Rule & Payer Selection -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Quy tắc làm tròn số tiền:</label>
+            <select id="roundingOption" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500">
+              <option value="1000" selected>Làm tròn lên 1.000 đ (Ví dụ: 216.929 ➔ 217.000)</option>
+              <option value="5000">Làm tròn lên 5.000 đ (Ví dụ: 216.929 ➔ 220.000)</option>
+              <option value="10000">Làm tròn lên 10.000 đ</option>
+              <option value="none">Không làm tròn (giữ số nguyên chính xác)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Người đã chi ứng trước toàn bộ:</label>
+            <select id="selectPayer" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-purple-700 font-bold focus:outline-none focus:border-purple-500">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Members Table -->
+        <div class="space-y-2 mb-3 max-h-80 overflow-y-auto pr-1" id="membersList">
+          <!-- Member items -->
+        </div>
+
+        <button id="btnAddMember" class="w-full py-2.5 border border-dashed border-slate-300 hover:border-emerald-500 rounded-xl text-xs font-semibold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/50 transition flex items-center justify-center gap-1.5">
+          <span>➕</span> Thêm 1 thành viên
+        </button>
+      </div>
+
+      <!-- 4. Thông tin tài khoản nhận tiền & VietQR -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">4</span>
+            Thông tin chuyển khoản & VietQR
+          </h2>
+          <span class="text-xs text-slate-400">Tự động tạo QR quét 1 chạm</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Ngân hàng thụ hưởng</label>
+            <select id="bankSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 font-medium focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
+              <option value="momo" data-bin="971025" selected>Ví MoMo</option>
+              <option value="VPBank" data-bin="970432">VPBank (Ngân hàng Việt Nam Thịnh Vượng)</option>
+              <option value="Vietcombank" data-bin="970436">Vietcombank (VCB)</option>
+              <option value="MBBank" data-bin="970422">MB Bank (Quân Đội)</option>
+              <option value="Techcombank" data-bin="970407">Techcombank (TCB)</option>
+              <option value="ACB" data-bin="970416">ACB (Á Châu)</option>
+              <option value="BIDV" data-bin="970418">BIDV (Đầu tư và Phát triển)</option>
+              <option value="VietinBank" data-bin="970415">VietinBank (Công Thương)</option>
+              <option value="TPBank" data-bin="970423">TPBank (Tiên Phong)</option>
+              <option value="Agribank" data-bin="970405">Agribank (Nông nghiệp)</option>
+              <option value="VIB" data-bin="970441">VIB (Quốc tế)</option>
+              <option value="Sacombank" data-bin="970403">Sacombank (Sài Gòn Thương Tín)</option>
+              <option value="HDBank" data-bin="970437">HDBank (Phát triển TP.HCM)</option>
+              <option value="SHB" data-bin="970443">SHB (Sài Gòn - Hà Nội)</option>
+              <option value="MSB" data-bin="970426">MSB (Hàng Hải)</option>
+              <option value="SeABank" data-bin="970440">SeABank (Đông Nam Á)</option>
+              <option value="OCB" data-bin="970448">OCB (Phương Đông)</option>
+              <option value="Timo" data-bin="963388">Timo by BVBank</option>
+              <option value="Cake" data-bin="546034">Cake by VPBank</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Số tài khoản (STK)</label>
+            <input type="text" id="accountNo" value="" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-mono font-bold focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tên chủ tài khoản</label>
+            <input type="text" id="accountName" value="" placeholder="Ví dụ: NGUYEN VAN AN" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold uppercase focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nội dung chuyển khoản</label>
+            <input type="text" id="transferMemo" value="Chia bill an trua" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Live Bill Preview & Export Actions (5 cols) -->
+    <div class="lg:col-span-5 sticky top-20 space-y-4">
+
+      <!-- Action Buttons Bar -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-wrap gap-2.5 items-center justify-between">
+        <div>
+          <span class="text-xs font-bold text-slate-900 block">Xuất kết quả</span>
+          <span class="text-[11px] text-slate-500">Ảnh chất lượng cao 3x Retina</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnCopyText" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-slate-300">
+            <span>📋</span> Copy chữ
+          </button>
+          <button id="btnDownloadImage" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-purple-500/25">
+            <span>📸</span> Tải ảnh Bill (PNG)
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Card Preview Outer wrapper (for centering) -->
+      <div class="flex justify-center w-full">
+        
+        <!-- THE BILL CARD (Target for html2canvas) -->
+        <div id="billReceiptCard" class="w-full max-w-[420px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300" style="background-color: #FAF6F0; color: #1E293B; border: 1px solid #E2D9CF;">
+          
+          <!-- Card Header Banner -->
+          <div id="receiptHeader" class="px-5 py-4 text-white transition-colors duration-300" style="background-color: #6B21A8;">
+            <h2 id="previewTitle" class="text-xl font-extrabold tracking-wide uppercase leading-tight">CHIA TIỀN ĂN UỐNG</h2>
+            <p id="previewSubtitle" class="text-xs font-medium text-white/80 mt-1">Chia bill · 5 người</p>
+          </div>
+
+          <!-- Card Content Body -->
+          <div class="p-5 space-y-3.5">
+            
+            <!-- Section 1: Expenses breakdown (Normal font, clean like image) -->
+            <div class="space-y-1 text-[13px] text-slate-800 font-normal">
+              <div id="previewExpenseItems" class="space-y-1">
+                <!-- Dynamically filled: e.g. Tiền ăn trưa 450.000 -->
+              </div>
+              
+              <!-- Total with payer tag -->
+              <div class="flex justify-between items-center pt-1 text-slate-800">
+                <span id="previewPayerSummary">Tổng (Hương đã trả hết)</span>
+                <span id="previewTotalAmount">525.000</span>
+              </div>
+            </div>
+
+            <!-- Calculation note -->
+            <div id="previewFormulaBox" class="text-[11px] text-slate-500 leading-snug pt-0.5">
+              <div id="previewFormulaText1">5 người chia đều:</div>
+              <div id="previewFormulaText2" class="font-mono text-[10.5px] text-slate-600 mt-0.5">525.000 ÷ 5 = 105.000 ≈ 105.000</div>
+            </div>
+
+            <hr id="dividerTop" class="border-t my-1">
+
+            <!-- Section 2: Members Breakdown List -->
+            <div class="space-y-0.5 text-[13px]" id="previewMembersTable">
+              <!-- Dynamically populated: Name ... Amount -->
+            </div>
+
+            <hr id="dividerBottom" class="border-t my-1">
+
+            <!-- Section 3: Payment instructions & QR code -->
+            <div class="text-center pt-1 pb-1">
+              <h3 id="previewTransferTitle" class="text-xs font-bold uppercase tracking-wide mb-3" style="color: #6B21A8;">
+                Chuyển khoản cho Hương
+              </h3>
+
+              <!-- QR Code Container Box -->
+              <div id="qrCodeWrapper" class="inline-block p-3 bg-white rounded-xl shadow-xs border border-slate-200">
+                <div class="w-44 h-44 flex items-center justify-center overflow-hidden relative">
+                  <!-- Image tag for VietQR -->
+                  <img id="vietQrImg" src="" alt="VietQR Code" class="w-full h-full object-contain">
+                  <!-- Fallback div if image loading fails or offline -->
+                  <div id="localQrCanvas" class="hidden w-full h-full flex items-center justify-center"></div>
+                </div>
+              </div>
+
+              <!-- Bank Details Text -->
+              <div class="mt-2.5 space-y-0.5 text-slate-800 text-xs">
+                <div id="previewBankName" class="font-bold text-slate-900">Ví MoMo</div>
+                <div id="previewAccountName" class="font-normal text-slate-700"></div>
+                <div id="previewAccountNoRow" class="tracking-wide mt-1">
+                  STK: <span id="previewAccountNo" class="font-mono font-bold text-slate-900"></span>
+                </div>
+                <div id="previewMemoRow" class="text-[11px] text-slate-500 italic mt-0.5">
+                  Nội dung: <span id="previewMemoText">Chia bill an trua</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Bottom subtle badge -->
+          <div class="bg-slate-100/80 py-1.5 text-center text-[10px] text-slate-400 font-medium border-t border-slate-200">
+            Hóa đơn tạo bởi ChiaBill Pro
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+    <span id="toastIcon">✅</span>
+    <span id="toastMessage">Đã sao chép!</span>
+  </div>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    const STORAGE_KEY = 'chia_bill_state_v6';
+
+    // State management with generic defaults + MoMo information
+    const defaultState = {
+      title: "CHIA TIỀN ĂN UỐNG",
+      theme: "violet", // Màu tím mặc định lên đầu
+      expenses: [
+        { id: '1', name: 'Tiền ăn trưa', amount: 450000 },
+        { id: '2', name: 'Nước ngọt / Tráng miệng', amount: 75000 }
+      ],
+      payerName: "Hương",
+      rounding: "1000",
+      bank: "momo",
+      accountNo: "",
+      accountName: "",
+      memo: "Chia bill an trua",
+      members: [
+        { id: 'm1', name: 'Hương', isFixed: false, fixedAmount: 0 },
+        { id: 'm2', name: 'Bạn A', isFixed: false, fixedAmount: 0 },
+        { id: 'm3', name: 'Bạn B', isFixed: false, fixedAmount: 0 },
+        { id: 'm4', name: 'Bạn C', isFixed: false, fixedAmount: 0 },
+        { id: 'm5', name: 'Bạn D', isFixed: false, fixedAmount: 0 }
+      ]
+    };
+
+    let state = JSON.parse(JSON.stringify(defaultState));
+
+    // Color Theme Definitions - Violet is first and default
+    const themes = {
+      violet: {
+        headerBg: '#6B21A8', // Vibrant Purple
+        accentText: '#6B21A8',
+        cardBg: '#FAF6F0',
+        rowAlt: '#F5EEFC',
+        payerText: '#1E6B3E',
+        divider: '#6B21A8'
+      },
+      maroon: {
+        headerBg: '#642634',
+        accentText: '#642634',
+        cardBg: '#FAF6F0',
+        rowAlt: '#F5EFEB',
+        payerText: '#1E6B3E',
+        divider: '#642634'
+      },
+      navy: {
+        headerBg: '#1E3A8A',
+        accentText: '#1E3A8A',
+        cardBg: '#FAF6F0',
+        rowAlt: '#EDF2F7',
+        payerText: '#1E6B3E',
+        divider: '#1E3A8A'
+      },
+      emerald: {
+        headerBg: '#064E3B',
+        accentText: '#064E3B',
+        cardBg: '#FAF6F0',
+        rowAlt: '#EAF3EA',
+        payerText: '#1E6B3E',
+        divider: '#064E3B'
+      },
+      slate: {
+        headerBg: '#1E293B',
+        accentText: '#1E293B',
+        cardBg: '#FAF6F0',
+        rowAlt: '#F1F5F9',
+        payerText: '#1E6B3E',
+        divider: '#1E293B'
+      },
+      amber: {
+        headerBg: '#B45309',
+        accentText: '#B45309',
+        cardBg: '#FAF6F0',
+        rowAlt: '#FEF3C7',
+        payerText: '#1E6B3E',
+        divider: '#B45309'
+      }
+    };
+
+    // Utilities
+    function formatMoney(num) {
+      if (isNaN(num)) return "0";
+      return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function parseMoney(str) {
+      if (typeof str === 'number') return str;
+      const clean = (str || '').replace(/[^\d]/g, '');
+      return parseInt(clean, 10) || 0;
+    }
+
+    function showToast(msg, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // Calculation Logic
+    function calculateBill() {
+      const totalExpense = state.expenses.reduce((sum, item) => sum + (item.amount || 0), 0);
+      const totalMembers = state.members.length;
+
+      // Fixed members vs evenly split members
+      const fixedMembers = state.members.filter(m => m.isFixed);
+      const totalFixedAmount = fixedMembers.reduce((sum, m) => sum + (m.fixedAmount || 0), 0);
+      
+      const evenMembers = state.members.filter(m => !m.isFixed);
+      const evenCount = evenMembers.length;
+
+      let remainingToSplit = Math.max(0, totalExpense - totalFixedAmount);
+      let rawPerPerson = evenCount > 0 ? remainingToSplit / evenCount : 0;
+      let roundedPerPerson = rawPerPerson;
+
+      if (state.rounding === "1000") {
+        roundedPerPerson = Math.ceil(rawPerPerson / 1000) * 1000;
+      } else if (state.rounding === "5000") {
+        roundedPerPerson = Math.ceil(rawPerPerson / 5000) * 5000;
+      } else if (state.rounding === "10000") {
+        roundedPerPerson = Math.ceil(rawPerPerson / 10000) * 10000;
+      } else {
+        roundedPerPerson = Math.round(rawPerPerson);
+      }
+
+      // Member amounts mapping
+      const memberShares = state.members.map(m => {
+        const share = m.isFixed ? m.fixedAmount : roundedPerPerson;
+        const isPayer = m.name.trim().toLowerCase() === state.payerName.trim().toLowerCase();
+        return {
+          ...m,
+          share,
+          isPayer
+        };
+      });
+
+      return {
+        totalExpense,
+        totalMembers,
+        fixedMembers,
+        totalFixedAmount,
+        evenCount,
+        remainingToSplit,
+        rawPerPerson,
+        roundedPerPerson,
+        memberShares
+      };
+    }
+
+    // Render Form Controls
+    function renderExpensesForm() {
+      const container = document.getElementById('expenseList');
+      container.innerHTML = '';
+
+      state.expenses.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200/90";
+        row.innerHTML = `
+          <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên khoản chi (ví dụ: Tiền ăn trưa)" class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-purple-500 font-medium">
+          <div class="relative w-36">
+            <input type="text" data-id="${item.id}" data-field="amount" value="${formatMoney(item.amount)}" placeholder="Số tiền" class="w-full bg-white border border-slate-200 rounded-lg pl-2.5 pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
+            <span class="absolute right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
+          </div>
+          <button data-id="${item.id}" class="btnDeleteExpense text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Xóa món">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        `;
+        container.appendChild(row);
+      });
+
+      // Events for expense rows
+      container.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const id = e.target.getAttribute('data-id');
+          const field = e.target.getAttribute('data-field');
+          const item = state.expenses.find(x => x.id === id);
+          if (item) {
+            if (field === 'amount') {
+              item.amount = parseMoney(e.target.value);
+              e.target.value = formatMoney(item.amount);
+            } else {
+              item.name = e.target.value;
+            }
+            updateAll();
+          }
+        });
+      });
+
+      container.querySelectorAll('.btnDeleteExpense').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          if (state.expenses.length <= 1) {
+            showToast('Cần ít nhất 1 khoản chi!', '⚠️');
+            return;
+          }
+          state.expenses = state.expenses.filter(x => x.id !== id);
+          renderExpensesForm();
+          updateAll();
+        });
+      });
+    }
+
+    function renderMembersForm() {
+      const container = document.getElementById('membersList');
+      container.innerHTML = '';
+
+      state.members.forEach((m, index) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200/90 text-xs";
+        row.innerHTML = `
+          <span class="w-5 text-center text-slate-400 font-mono text-[11px] font-semibold">${index + 1}</span>
+          <input type="text" data-id="${m.id}" data-field="name" value="${m.name}" placeholder="Tên thành viên" class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500">
+          
+          <select data-id="${m.id}" data-field="mode" class="bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] text-slate-700 font-medium focus:outline-none">
+            <option value="even" ${!m.isFixed ? 'selected' : ''}>Chia đều</option>
+            <option value="fixed" ${m.isFixed ? 'selected' : ''}>Cố định</option>
+          </select>
+
+          <div class="relative w-28 ${m.isFixed ? '' : 'opacity-40 pointer-events-none'}">
+            <input type="text" data-id="${m.id}" data-field="fixedAmount" value="${formatMoney(m.fixedAmount || 0)}" placeholder="Số tiền" class="w-full bg-white border border-slate-200 rounded-lg pl-2 pr-5 py-1.5 text-xs text-emerald-700 font-mono text-right font-bold focus:outline-none">
+            <span class="absolute right-1.5 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
+          </div>
+
+          <button data-id="${m.id}" class="btnDeleteMember text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Xóa người">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        `;
+        container.appendChild(row);
+      });
+
+      // Events
+      container.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const id = e.target.getAttribute('data-id');
+          const field = e.target.getAttribute('data-field');
+          const m = state.members.find(x => x.id === id);
+          if (m) {
+            if (field === 'fixedAmount') {
+              m.fixedAmount = parseMoney(e.target.value);
+              e.target.value = formatMoney(m.fixedAmount);
+            } else if (field === 'name') {
+              const oldName = m.name;
+              m.name = e.target.value;
+              if (state.payerName === oldName) {
+                state.payerName = m.name;
+              }
+              populatePayerDropdown();
+            }
+            updateAll();
+          }
+        });
+      });
+
+      container.querySelectorAll('select[data-field="mode"]').forEach(select => {
+        select.addEventListener('change', (e) => {
+          const id = e.target.getAttribute('data-id');
+          const m = state.members.find(x => x.id === id);
+          if (m) {
+            m.isFixed = e.target.value === 'fixed';
+            if (m.isFixed && !m.fixedAmount) m.fixedAmount = 100000;
+            renderMembersForm();
+            updateAll();
+          }
+        });
+      });
+
+      container.querySelectorAll('.btnDeleteMember').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          if (state.members.length <= 1) {
+            showToast('Cần ít nhất 1 thành viên!', '⚠️');
+            return;
+          }
+          state.members = state.members.filter(x => x.id !== id);
+          renderMembersForm();
+          populatePayerDropdown();
+          updateAll();
+        });
+      });
+
+      populatePayerDropdown();
+    }
+
+    function populatePayerDropdown() {
+      const select = document.getElementById('selectPayer');
+      const current = state.payerName;
+      select.innerHTML = '';
+      state.members.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.name;
+        opt.textContent = m.name;
+        if (m.name.trim().toLowerCase() === current.trim().toLowerCase()) {
+          opt.selected = true;
+        }
+        select.appendChild(opt);
+      });
+      if (!state.members.some(m => m.name.trim().toLowerCase() === current.trim().toLowerCase()) && state.members.length > 0) {
+        state.payerName = state.members[0].name;
+      }
+    }
+
+    // QR Code generation with multi-tier fallback
+    let qrDebounceTimer = null;
+    let currentQrRequestId = 0;
+
+    function updateQrCode(amount) {
+      const accountNo = state.accountNo ? state.accountNo.trim() : '';
+      const vietQrImg = document.getElementById('vietQrImg');
+      const localQrDiv = document.getElementById('localQrCanvas');
+
+      if (!accountNo) {
+        vietQrImg.classList.add('hidden');
+        localQrDiv.classList.add('hidden');
+        return;
+      }
+
+      clearTimeout(qrDebounceTimer);
+      qrDebounceTimer = setTimeout(async () => {
+        const reqId = ++currentQrRequestId;
+        const bankOption = document.querySelector(`#bankSelect option[value="${state.bank}"]`);
+        const bin = bankOption ? bankOption.getAttribute('data-bin') : (state.bank === 'momo' ? '971025' : state.bank);
+        const accountName = state.accountName ? state.accountName.trim() : '';
+        const memo = state.memo ? state.memo.trim() : '';
+
+        // Tier 1: Call VietQR official API to get base64 PNG data (Full Napas/Bank branding, 0 CORS issues)
+        try {
+          const resp = await fetch('https://api.vietqr.io/v2/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              accountNo: accountNo,
+              accountName: accountName,
+              acqId: bin,
+              amount: amount > 0 ? amount : undefined,
+              addInfo: memo,
+              template: 'compact2'
+            })
+          });
+
+          if (reqId !== currentQrRequestId) return;
+
+          const resData = await resp.json();
+          if (resData && resData.data && resData.data.qrDataURL) {
+            vietQrImg.removeAttribute('crossorigin');
+            vietQrImg.src = resData.data.qrDataURL;
+            vietQrImg.classList.remove('hidden');
+            localQrDiv.classList.add('hidden');
+            return;
+          }
+        } catch (apiErr) {
+          console.warn('VietQR API unavailable, trying direct image:', apiErr);
+        }
+
+        if (reqId !== currentQrRequestId) return;
+
+        // Tier 2: Direct SVG template (no crossorigin attribute to prevent CORS 301 redirect block)
+        try {
+          const bankId = state.bank === 'momo' ? '971025' : (bin || state.bank);
+          let imgUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.svg?amount=${amount}&accountName=${encodeURIComponent(accountName)}`;
+          if (memo) imgUrl += `&addInfo=${encodeURIComponent(memo)}`;
+
+          vietQrImg.removeAttribute('crossorigin');
+          vietQrImg.onload = function() {
+            if (reqId !== currentQrRequestId) return;
+            vietQrImg.classList.remove('hidden');
+            localQrDiv.classList.add('hidden');
+          };
+          vietQrImg.onerror = function() {
+            if (reqId !== currentQrRequestId) return;
+            renderLocalQr(accountNo, accountName, state.bank, amount, memo);
+          };
+          vietQrImg.src = imgUrl;
+        } catch (err) {
+          renderLocalQr(accountNo, accountName, state.bank, amount, memo);
+        }
+      }, 200);
+    }
+
+    function renderLocalQr(accountNo, accountName, bank, amount, memo) {
+      const vietQrImg = document.getElementById('vietQrImg');
+      const localQrDiv = document.getElementById('localQrCanvas');
+
+      vietQrImg.classList.add('hidden');
+      localQrDiv.classList.remove('hidden');
+      localQrDiv.innerHTML = '';
+
+      try {
+        new QRCode(localQrDiv, {
+          text: `2|99|${accountNo}|${accountName}|${bank}|${amount}|${memo}`,
+          width: 176,
+          height: 176,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch (err) {
+        console.error('Local QR render error:', err);
+        localQrDiv.innerHTML = `<div class="text-xs text-slate-500 font-mono text-center p-3">STK: ${accountNo}</div>`;
+      }
+    }
+
+    // Update Live Card Preview
+    function updatePreview() {
+      const calc = calculateBill();
+      const theme = themes[state.theme] || themes.violet;
+
+      // Card Header
+      const header = document.getElementById('receiptHeader');
+      header.style.backgroundColor = theme.headerBg;
+
+      document.getElementById('previewTitle').textContent = state.title || 'CHIA TIỀN';
+      document.getElementById('previewSubtitle').textContent = `Chia bill · ${calc.totalMembers} người`;
+
+      // Top labels
+      document.getElementById('labelTotalExpense').textContent = `${formatMoney(calc.totalExpense)} đ`;
+      document.getElementById('labelMemberCount').textContent = calc.totalMembers;
+
+      // Expenses preview (Regular font, clean like reference image)
+      const expenseItemsContainer = document.getElementById('previewExpenseItems');
+      expenseItemsContainer.innerHTML = '';
+      state.expenses.forEach(item => {
+        const row = document.createElement('div');
+        row.className = "flex justify-between items-center text-slate-800 text-[13px]";
+        row.innerHTML = `
+          <span>${item.name || 'Khoản chi'}</span>
+          <span>${formatMoney(item.amount)}</span>
+        `;
+        expenseItemsContainer.appendChild(row);
+      });
+
+      // Payer summary (Regular font)
+      document.getElementById('previewPayerSummary').textContent = `Tổng (${state.payerName} đã trả hết)`;
+      document.getElementById('previewTotalAmount').textContent = formatMoney(calc.totalExpense);
+
+      // Formula breakdown text
+      const formula1 = document.getElementById('previewFormulaText1');
+      const formula2 = document.getElementById('previewFormulaText2');
+
+      if (calc.fixedMembers.length > 0) {
+        const fixedDescriptions = calc.fixedMembers.map(m => `${m.name} cố định ${formatMoney(m.fixedAmount)}`).join(', ');
+        formula1.textContent = `${fixedDescriptions} · ${calc.evenCount} người còn lại chia đều`;
+        formula2.textContent = `(${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)}) ÷ ${calc.evenCount} = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)}`;
+      } else {
+        formula1.textContent = `${calc.totalMembers} người chia đều:`;
+        formula2.textContent = `${formatMoney(calc.totalExpense)} ÷ ${calc.totalMembers} = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)}`;
+      }
+
+      // Dividers color matching theme
+      const dividerColor = theme.divider || '#6B21A8';
+      document.getElementById('dividerTop').style.borderColor = dividerColor;
+      document.getElementById('dividerBottom').style.borderColor = dividerColor;
+
+      // Members Table Preview (Alternating rows, clean flat style matching sample)
+      const membersTable = document.getElementById('previewMembersTable');
+      membersTable.innerHTML = '';
+
+      calc.memberShares.forEach((m, idx) => {
+        const row = document.createElement('div');
+        const isOdd = idx % 2 === 1;
+        const rowBg = isOdd ? (theme.rowAlt || '#F5EEFC') : 'transparent';
+        
+        if (m.isPayer) {
+          row.className = "py-1.5 px-2.5 transition-colors";
+          row.style.backgroundColor = rowBg;
+          row.innerHTML = `
+            <div class="flex justify-between items-center">
+              <span class="text-[13px] font-normal" style="color: ${theme.payerText || '#1E6B3E'}">
+                ${m.name} (phần của mình)
+              </span>
+              <span class="text-[13px] font-bold" style="color: ${theme.payerText || '#1E6B3E'}">
+                ${formatMoney(m.share)}
+              </span>
+            </div>
+            <div class="text-[10.5px] text-slate-500 font-normal mt-0.5">
+              Đã ứng toàn bộ ➔ ${calc.totalMembers - 1} người còn lại chuyển khoản cho ${m.name}
+            </div>
+          `;
+        } else {
+          row.className = "flex justify-between items-center py-1.5 px-2.5 transition-colors";
+          row.style.backgroundColor = rowBg;
+          row.innerHTML = `
+            <span class="text-slate-800 text-[13px] font-normal">${m.name}</span>
+            <span class="font-bold text-slate-900 text-[13px] tracking-tight">${formatMoney(m.share)}</span>
+          `;
+        }
+        membersTable.appendChild(row);
+      });
+
+      // Bank Section
+      const transferTitle = document.getElementById('previewTransferTitle');
+      transferTitle.textContent = `Chuyển khoản cho ${state.payerName}`;
+      transferTitle.style.color = theme.accentText;
+
+      const bankOption = document.querySelector(`#bankSelect option[value="${state.bank}"]`);
+      document.getElementById('previewBankName').textContent = bankOption ? bankOption.textContent.split('(')[0].trim() : state.bank;
+      document.getElementById('previewAccountName').textContent = state.accountName;
+
+      // STK Row: Only show if accountNo is not empty
+      const accountNoRow = document.getElementById('previewAccountNoRow');
+      const cleanAccNo = state.accountNo ? state.accountNo.trim() : '';
+      if (cleanAccNo) {
+        accountNoRow.classList.remove('hidden');
+        document.getElementById('previewAccountNo').textContent = cleanAccNo;
+      } else {
+        accountNoRow.classList.add('hidden');
+      }
+
+      // Memo Row: Only show if memo is not empty
+      const memoRow = document.getElementById('previewMemoRow');
+      const cleanMemo = state.memo ? state.memo.trim() : '';
+      if (cleanMemo) {
+        memoRow.classList.remove('hidden');
+        document.getElementById('previewMemoText').textContent = cleanMemo;
+      } else {
+        memoRow.classList.add('hidden');
+      }
+
+      // QR Code update & visibility
+      const qrWrapper = document.getElementById('qrCodeWrapper');
+      if (cleanAccNo) {
+        qrWrapper.classList.remove('hidden');
+        updateQrCode(calc.roundedPerPerson);
+      } else {
+        qrWrapper.classList.add('hidden');
+      }
+    }
+
+    function updateAll() {
+      updatePreview();
+      saveToLocalStorage();
+    }
+
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          Object.assign(state, parsed);
+        }
+      } catch (e) {}
+    }
+
+    // Preset: Team Building sample (15 people)
+    function loadSampleTeamBuilding() {
+      state.title = "TEAM BUILDING";
+      state.theme = "violet"; // Default purple
+      state.expenses = [
+        { id: '1', name: 'Tiền nhậu', amount: 2989000 },
+        { id: '2', name: 'Bánh sinh nhật', amount: 248000 }
+      ];
+      state.payerName = "Anh Bình";
+      state.rounding = "1000";
+      state.bank = "VPBank";
+      state.accountNo = "199129392";
+      state.accountName = "Trần Ngọc Bình";
+      state.memo = "Team building tien an";
+      state.members = [
+        { id: 'm1', name: 'Long Phạm', isFixed: false, fixedAmount: 0 },
+        { id: 'm2', name: 'Anh Vĩnh', isFixed: false, fixedAmount: 0 },
+        { id: 'm3', name: 'Long Nguyễn', isFixed: false, fixedAmount: 0 },
+        { id: 'm4', name: 'Khoa', isFixed: false, fixedAmount: 0 },
+        { id: 'm5', name: 'Thọ', isFixed: false, fixedAmount: 0 },
+        { id: 'm6', name: 'Hoàng', isFixed: false, fixedAmount: 0 },
+        { id: 'm7', name: 'Công', isFixed: false, fixedAmount: 0 },
+        { id: 'm8', name: 'Hương', isFixed: false, fixedAmount: 0 },
+        { id: 'm9', name: 'Tài', isFixed: false, fixedAmount: 0 },
+        { id: 'm10', name: 'Nhàn', isFixed: false, fixedAmount: 0 },
+        { id: 'm11', name: 'Dung', isFixed: false, fixedAmount: 0 },
+        { id: 'm12', name: 'Mai', isFixed: false, fixedAmount: 0 },
+        { id: 'm13', name: 'Nhâm', isFixed: false, fixedAmount: 0 },
+        { id: 'm14', name: 'Phụng', isFixed: true, fixedAmount: 200000 },
+        { id: 'm15', name: 'Anh Bình', isFixed: false, fixedAmount: 0 }
+      ];
+
+      syncFormFromState();
+      renderExpensesForm();
+      renderMembersForm();
+      updateAll();
+      showToast('Đã nạp số liệu mẫu Team Building!', '🎉');
+    }
+
+    function syncFormFromState() {
+      document.getElementById('eventTitle').value = state.title;
+      document.getElementById('cardTheme').value = state.theme;
+      document.getElementById('roundingOption').value = state.rounding;
+      document.getElementById('bankSelect').value = state.bank;
+      document.getElementById('accountNo').value = state.accountNo;
+      document.getElementById('accountName').value = state.accountName;
+      document.getElementById('transferMemo').value = state.memo;
+    }
+
+    // Export: Download as PNG image
+    async function downloadReceiptImage() {
+      const card = document.getElementById('billReceiptCard');
+      const btn = document.getElementById('btnDownloadImage');
+      const originalText = btn.innerHTML;
+
+      try {
+        btn.innerHTML = `<span>⏳</span> Đang tạo ảnh...`;
+        btn.disabled = true;
+
+        await new Promise(r => setTimeout(r, 200));
+
+        const canvas = await html2canvas(card, {
+          scale: 3, // 3x Retina resolution
+          useCORS: true,
+          backgroundColor: null,
+          logging: false
+        });
+
+        const image = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        const cleanTitle = (state.title || 'bill').toLowerCase().replace(/[^a-z0-9]/gi, '_');
+        link.download = `bill_${cleanTitle}_${Date.now()}.png`;
+        link.href = image;
+        link.click();
+
+        showToast('Đã tải ảnh hóa đơn về máy!', '🎉');
+      } catch (err) {
+        console.error(err);
+        showToast('Có lỗi khi tạo ảnh. Vui lòng thử lại!', '❌');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    // Export: Copy formatted text to clipboard
+    function copyFormattedText() {
+      const calc = calculateBill();
+      let text = `🧾 HÓA ĐƠN: ${state.title.toUpperCase()}\n`;
+      text += `👥 Số lượng: ${calc.totalMembers} người\n`;
+      text += `--------------------------------\n`;
+      state.expenses.forEach(e => {
+        text += `• ${e.name}: ${formatMoney(e.amount)} đ\n`;
+      });
+      text += `👉 Tổng cộng: ${formatMoney(calc.totalExpense)} đ (${state.payerName} đã trả)\n\n`;
+
+      if (calc.fixedMembers.length > 0) {
+        const fixedText = calc.fixedMembers.map(m => `${m.name} cố định ${formatMoney(m.fixedAmount)} đ`).join(', ');
+        text += `📌 ${fixedText}\n`;
+        text += `📌 ${calc.evenCount} người còn lại: (${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)}) ÷ ${calc.evenCount} = ${formatMoney(calc.roundedPerPerson)} đ/người\n\n`;
+      } else {
+        text += `📌 Mỗi người: ${formatMoney(calc.roundedPerPerson)} đ\n\n`;
+      }
+
+      text += `📋 DANH SÁCH:\n`;
+      calc.memberShares.forEach(m => {
+        if (m.isPayer) {
+          text += `✅ ${m.name}: ${formatMoney(m.share)} đ (Người ứng)\n`;
+        } else {
+          text += `• ${m.name}: ${formatMoney(m.share)} đ\n`;
+        }
+      });
+
+      const bankOption = document.querySelector(`#bankSelect option[value="${state.bank}"]`);
+      const bankLabel = bankOption ? bankOption.textContent.split('(')[0].trim() : state.bank;
+      const cleanAcc = state.accountNo ? state.accountNo.trim() : '';
+      const cleanMemo = state.memo ? state.memo.trim() : '';
+
+      text += `\n💳 THÔNG TIN CHUYỂN KHOẢN:\n`;
+      text += `• Ngân hàng / Ví: ${bankLabel}\n`;
+      if (cleanAcc) {
+        text += `• STK: ${cleanAcc}\n`;
+      }
+      text += `• Chủ TK: ${state.accountName}\n`;
+      if (cleanMemo) {
+        text += `• Nội dung: ${cleanMemo}\n`;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Đã sao chép nội dung chia bill!', '📋');
+      }).catch(() => {
+        showToast('Không thể sao chép!', '❌');
+      });
+    }
+
+    // Init Event Listeners
+    function initListeners() {
+      document.getElementById('eventTitle').addEventListener('input', (e) => {
+        state.title = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('cardTheme').addEventListener('change', (e) => {
+        state.theme = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('roundingOption').addEventListener('change', (e) => {
+        state.rounding = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('selectPayer').addEventListener('change', (e) => {
+        state.payerName = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('bankSelect').addEventListener('change', (e) => {
+        state.bank = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('accountNo').addEventListener('input', (e) => {
+        state.accountNo = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('accountName').addEventListener('input', (e) => {
+        state.accountName = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('transferMemo').addEventListener('input', (e) => {
+        state.memo = e.target.value;
+        updateAll();
+      });
+
+      document.getElementById('btnAddExpense').addEventListener('click', () => {
+        state.expenses.push({
+          id: 'exp_' + Date.now(),
+          name: '',
+          amount: 0
+        });
+        renderExpensesForm();
+        updateAll();
+      });
+
+      document.getElementById('btnAddMember').addEventListener('click', () => {
+        state.members.push({
+          id: 'mem_' + Date.now(),
+          name: `Bạn ${String.fromCharCode(65 + (state.members.length % 26))}`,
+          isFixed: false,
+          fixedAmount: 0
+        });
+        renderMembersForm();
+        updateAll();
+      });
+
+      document.getElementById('btnQuickAdd').addEventListener('click', () => {
+        const input = document.getElementById('quickNamesInput');
+        const val = input.value.trim();
+        if (!val) return;
+
+        const names = val.split(/[,\n]+/).map(n => n.trim()).filter(Boolean);
+        if (names.length === 0) return;
+
+        names.forEach(name => {
+          state.members.push({
+            id: 'mem_' + Math.random().toString(36).substr(2, 9),
+            name: name,
+            isFixed: false,
+            fixedAmount: 0
+          });
+        });
+
+        input.value = '';
+        renderMembersForm();
+        updateAll();
+        showToast(`Đã thêm ${names.length} người!`, '✨');
+      });
+
+      document.getElementById('btnLoadSampleTeam').addEventListener('click', loadSampleTeamBuilding);
+      
+      document.getElementById('btnReset').addEventListener('click', () => {
+        if (!confirm('Bạn có chắc muốn đặt lại về mặc định không?')) return;
+        state = JSON.parse(JSON.stringify(defaultState));
+        syncFormFromState();
+        renderExpensesForm();
+        renderMembersForm();
+        updateAll();
+        showToast('Đã đặt lại dữ liệu mặc định!', '🧹');
+      });
+
+      document.getElementById('btnDownloadImage').addEventListener('click', downloadReceiptImage);
+      document.getElementById('btnCopyText').addEventListener('click', copyFormattedText);
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      loadFromLocalStorage();
+      syncFormFromState();
+      renderExpensesForm();
+      renderMembersForm();
+      updateAll();
+      initListeners();
+    });
+  </script>
+</body>
+</html>
