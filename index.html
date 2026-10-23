@@ -312,14 +312,14 @@
               <!-- Total with payer tag -->
               <div class="flex justify-between items-center pt-1 text-slate-800">
                 <span id="previewPayerSummary">Tổng (Hương đã trả hết)</span>
-                <span id="previewTotalAmount">525.000</span>
+                <span id="previewTotalAmount">0</span>
               </div>
             </div>
 
             <!-- Calculation note -->
             <div id="previewFormulaBox" class="text-[11px] text-slate-500 leading-snug pt-0.5">
-              <div id="previewFormulaText1">5 người chia đều:</div>
-              <div id="previewFormulaText2" class="font-mono text-[10.5px] text-slate-600 mt-0.5">525.000 ÷ 5 = 105.000 ≈ 105.000</div>
+              <div id="previewFormulaText1">5 người tham gia (chưa có chi phí)</div>
+              <div id="previewFormulaText2" class="font-mono text-[10.5px] text-slate-600 mt-0.5">Tổng: 0 đ · Mỗi người: 0 đ</div>
             </div>
 
             <hr id="dividerTop" class="border-t my-1">
@@ -384,15 +384,14 @@
 
   <!-- APPLICATION LOGIC -->
   <script>
-    const STORAGE_KEY = 'chia_bill_state_v6';
+    const STORAGE_KEY = 'chia_bill_state_v7';
 
-    // State management with generic defaults + MoMo information
+    // State management with 0 amount by default + MoMo information
     const defaultState = {
       title: "CHIA TIỀN ĂN UỐNG",
       theme: "violet", // Màu tím mặc định lên đầu
       expenses: [
-        { id: '1', name: 'Tiền ăn trưa', amount: 450000 },
-        { id: '2', name: 'Nước ngọt / Tráng miệng', amount: 75000 }
+        { id: '1', name: '', amount: 0 }
       ],
       payerName: "Hương",
       rounding: "1000",
@@ -546,7 +545,7 @@
         row.innerHTML = `
           <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên khoản chi (ví dụ: Tiền ăn trưa)" class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-purple-500 font-medium">
           <div class="relative w-36">
-            <input type="text" data-id="${item.id}" data-field="amount" value="${formatMoney(item.amount)}" placeholder="Số tiền" class="w-full bg-white border border-slate-200 rounded-lg pl-2.5 pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
+            <input type="text" data-id="${item.id}" data-field="amount" value="${item.amount > 0 ? formatMoney(item.amount) : ''}" placeholder="0" class="w-full bg-white border border-slate-200 rounded-lg pl-2.5 pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
             <span class="absolute right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
           </div>
           <button data-id="${item.id}" class="btnDeleteExpense text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Xóa món">
@@ -565,7 +564,7 @@
           if (item) {
             if (field === 'amount') {
               item.amount = parseMoney(e.target.value);
-              e.target.value = formatMoney(item.amount);
+              e.target.value = item.amount > 0 ? formatMoney(item.amount) : '';
             } else {
               item.name = e.target.value;
             }
@@ -824,7 +823,10 @@
       const formula1 = document.getElementById('previewFormulaText1');
       const formula2 = document.getElementById('previewFormulaText2');
 
-      if (calc.fixedMembers.length > 0) {
+      if (calc.totalExpense === 0) {
+        formula1.textContent = `${calc.totalMembers} người tham gia (chưa có chi phí)`;
+        formula2.textContent = `Tổng: 0 đ · Mỗi người: 0 đ`;
+      } else if (calc.fixedMembers.length > 0) {
         const fixedDescriptions = calc.fixedMembers.map(m => `${m.name} cố định ${formatMoney(m.fixedAmount)}`).join(', ');
         formula1.textContent = `${fixedDescriptions} · ${calc.evenCount} người còn lại chia đều`;
         formula2.textContent = `(${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)}) ÷ ${calc.evenCount} = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)}`;
@@ -1158,13 +1160,17 @@
       document.getElementById('btnLoadSampleTeam').addEventListener('click', loadSampleTeamBuilding);
       
       document.getElementById('btnReset').addEventListener('click', () => {
-        if (!confirm('Bạn có chắc muốn đặt lại về mặc định không?')) return;
-        state = JSON.parse(JSON.stringify(defaultState));
+        if (!confirm('Bạn có chắc muốn xóa trắng dữ liệu không?')) return;
+        state.expenses = [{ id: 'exp_' + Date.now(), name: '', amount: 0 }];
+        state.members.forEach(m => {
+          m.isFixed = false;
+          m.fixedAmount = 0;
+        });
         syncFormFromState();
         renderExpensesForm();
         renderMembersForm();
         updateAll();
-        showToast('Đã đặt lại dữ liệu mặc định!', '🧹');
+        showToast('Đã xóa trắng số tiền về 0!', '🧹');
       });
 
       document.getElementById('btnDownloadImage').addEventListener('click', downloadReceiptImage);
