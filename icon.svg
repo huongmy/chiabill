@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="40%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="billHeaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#581C87"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2e1065" flood-opacity="0.38"/>
+    </filter>
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1e1b4b" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- App Background Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="115" ry="115" fill="url(#bgGrad)" filter="url(#shadow)"/>
+  <rect x="22" y="22" width="468" height="468" rx="110" ry="110" fill="none" stroke="#C4B5FD" stroke-width="4" stroke-opacity="0.45"/>
+
+  <!-- Receipt Bill in Center -->
+  <g transform="translate(0, 0)">
+    <!-- White Receipt Body -->
+    <path d="M 140,85 
+             L 372,85 
+             C 385,85 394,94 394,107 
+             L 394,385 
+             L 372,375 L 350,385 L 328,375 L 306,385 L 284,375 L 262,385 L 240,375 L 218,385 L 196,375 L 174,385 L 152,375 L 130,385 
+             L 118,385 
+             C 118,385 118,107 118,107 
+             C 118,94 127,85 140,85 Z" 
+          fill="#FAF6F0" filter="url(#cardShadow)"/>
+
+    <!-- Receipt Header Bar -->
+    <rect x="122" y="89" width="268" height="64" rx="18" ry="18" fill="url(#billHeaderGrad)"/>
+    <text x="144" y="132" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="1">CHIA BILL</text>
+
+    <!-- Item lines on receipt -->
+    <rect x="144" y="175" width="130" height="12" rx="6" fill="#CBD5E1"/>
+    <rect x="310" y="175" width="55" height="12" rx="6" fill="#94A3B8"/>
+
+    <rect x="144" y="202" width="105" height="12" rx="6" fill="#CBD5E1"/>
+    <rect x="310" y="202" width="55" height="12" rx="6" fill="#94A3B8"/>
+
+    <!-- Separator Dotted Line -->
+    <line x1="144" y1="235" x2="368" y2="235" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="6 6"/>
+
+    <!-- Mini QR Code Representation -->
+    <g transform="translate(196, 252)">
+      <!-- QR frame -->
+      <rect x="0" y="0" width="120" height="100" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+      
+      <!-- Top-left finder -->
+      <rect x="14" y="14" width="26" height="26" rx="4" fill="#1E1B4B"/>
+      <rect x="18" y="18" width="18" height="18" rx="2" fill="#FFFFFF"/>
+      <rect x="22" y="22" width="10" height="10" fill="#1E1B4B"/>
+      
+      <!-- Top-right finder -->
+      <rect x="80" y="14" width="26" height="26" rx="4" fill="#1E1B4B"/>
+      <rect x="84" y="18" width="18" height="18" rx="2" fill="#FFFFFF"/>
+      <rect x="88" y="22" width="10" height="10" fill="#1E1B4B"/>
+
+      <!-- Bottom-left finder -->
+      <rect x="14" y="60" width="26" height="26" rx="4" fill="#1E1B4B"/>
+      <rect x="18" y="64" width="18" height="18" rx="2" fill="#FFFFFF"/>
+      <rect x="22" y="68" width="10" height="10" fill="#1E1B4B"/>
+
+      <!-- QR Data modules -->
+      <rect x="52" y="18" width="16" height="16" rx="2" fill="#1E1B4B"/>
+      <rect x="52" y="44" width="24" height="20" rx="3" fill="#1E1B4B"/>
+      <rect x="84" y="52" width="18" height="18" rx="2" fill="#1E1B4B"/>
+      <rect x="80" y="78" width="22" height="10" rx="2" fill="#1E1B4B"/>
+      <rect x="52" y="72" width="16" height="14" rx="2" fill="#1E1B4B"/>
+    </g>
+  </g>
+
+  <!-- Flying Cash / Gold Currency Badge in Bottom Corner -->
+  <circle cx="395" cy="395" r="48" fill="url(#goldGrad)" filter="url(#shadow)"/>
+  <circle cx="395" cy="395" r="44" fill="none" stroke="#FEF3C7" stroke-width="2.5"/>
+  <!-- Division / Split Symbol -->
+  <text x="395" y="415" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="54" fill="#FFFFFF" text-anchor="middle">÷</text>
+</svg>
