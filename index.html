@@ -79,44 +79,41 @@
 
   <!-- Header Navbar -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-30 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-purple-500/20">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-base sm:text-xl shadow-md shadow-purple-500/20 shrink-0">
           💸
         </div>
-        <div>
-          <h1 class="font-extrabold text-lg text-slate-900 leading-tight">ChiaBill Pro</h1>
-          <p class="text-xs text-slate-500 font-medium">Tạo bill chia tiền & mã QR thanh toán chuẩn đẹp</p>
+        <div class="min-w-0">
+          <h1 class="font-extrabold text-base sm:text-lg text-slate-900 leading-tight truncate">ChiaBill Pro</h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium hidden sm:block">Tạo bill chia tiền & mã QR thanh toán chuẩn đẹp</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button id="btnLoadSampleTeam" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition flex items-center gap-1.5 shadow-2xs">
-          <span>✨</span> Xem mẫu Team Building (15 người)
-        </button>
-        <button id="btnReset" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 transition">
-          Xóa trắng
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button id="btnReset" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 transition flex items-center gap-1 shadow-2xs">
+          <span>🧹</span> Xóa trắng
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
     
     <!-- LEFT COLUMN: Form Inputs (7 cols) -->
-    <div class="lg:col-span-7 space-y-6">
+    <div class="lg:col-span-7 space-y-4 sm:space-y-6">
 
       <!-- 1. Sự kiện & Chủ đề -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">1</span>
-            Thông tin sự kiện & Giao diện bill
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
+            <span class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+            <span class="truncate">Thông tin sự kiện & Giao diện bill</span>
           </h2>
-          <span class="text-xs text-slate-400">Tùy biến tiêu đề và màu sắc hóa đơn</span>
+          <span class="text-xs text-slate-400 hidden sm:inline shrink-0">Tùy biến tiêu đề và màu sắc hóa đơn</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           <div class="md:col-span-2">
             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tên sự kiện / Tiêu đề hóa đơn</label>
             <input type="text" id="eventTitle" value="CHIA TIỀN ĂN UỐNG" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold uppercase tracking-wide focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition">
@@ -136,20 +133,20 @@
       </div>
 
       <!-- 2. Danh sách khoản chi -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">2</span>
-            Danh sách các khoản chi tiêu
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
+            <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold shrink-0">2</span>
+            <span class="truncate">Danh sách các khoản chi tiêu</span>
           </h2>
-          <div class="text-right">
+          <div class="text-right shrink-0">
             <span class="text-xs text-slate-500 font-medium">Tổng tiền:</span>
             <span id="labelTotalExpense" class="text-sm font-extrabold text-amber-600 ml-1">0 đ</span>
           </div>
         </div>
 
         <!-- Expense Rows Container -->
-        <div id="expenseList" class="space-y-2.5 mb-3">
+        <div id="expenseList" class="space-y-2 sm:space-y-2.5 mb-3">
           <!-- Dynamically inserted expense item rows -->
         </div>
 
@@ -159,37 +156,38 @@
       </div>
 
       <!-- 3. Thành viên & Cách chia tiền -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-          <div>
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
+          <div class="min-w-0">
             <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">3</span>
-              Thành viên & Cơ chế chia tiền
+              <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+              <span class="truncate">Thành viên & Cơ chế chia tiền</span>
             </h2>
-            <p class="text-xs text-slate-500 mt-0.5">Ai đã ứng trước, ai đóng cố định, ai chia đều</p>
+            <p class="text-xs text-slate-500 mt-0.5 hidden sm:block">Ai đã ứng trước, ai đóng cố định, ai chia đều</p>
           </div>
-          <div class="text-right">
-            <span class="text-xs text-slate-500 font-medium">Tổng số người:</span>
+          <div class="text-right shrink-0">
+            <span class="text-xs text-slate-500 font-medium">Tổng số:</span>
             <span id="labelMemberCount" class="text-sm font-bold text-emerald-700 ml-1">0</span>
+            <span class="text-xs text-slate-400">người</span>
           </div>
         </div>
 
         <!-- Quick Input Box -->
-        <div class="mb-4 bg-purple-50/40 p-3.5 rounded-xl border border-purple-100">
-          <label class="block text-xs font-semibold text-purple-900 mb-1.5 flex items-center justify-between">
-            <span>⚡ Nhập nhanh danh sách tên (cách nhau bằng dấu phẩy hoặc xuống dòng):</span>
-            <span class="text-[11px] text-purple-600/80 font-normal">Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D...</span>
+        <div class="mb-4 bg-purple-50/40 p-3 sm:p-3.5 rounded-xl border border-purple-100">
+          <label class="block text-xs font-semibold text-purple-900 mb-1.5 flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
+            <span>⚡ Nhập nhanh danh sách tên:</span>
+            <span class="text-[11px] text-purple-600/80 font-normal hidden sm:inline">Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D...</span>
           </label>
           <div class="flex gap-2">
-            <input type="text" id="quickNamesInput" placeholder="Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D, Bạn E..." class="flex-1 bg-white border border-purple-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-200">
-            <button id="btnQuickAdd" class="px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition shadow-2xs shrink-0">
+            <input type="text" id="quickNamesInput" placeholder="Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D, Bạn E..." class="flex-1 min-w-0 bg-white border border-purple-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-200">
+            <button id="btnQuickAdd" class="px-3 sm:px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition shadow-2xs shrink-0">
               Nhập nhanh
             </button>
           </div>
         </div>
 
         <!-- Rounding Rule & Payer Selection -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-4 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200/80">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Quy tắc làm tròn số tiền:</label>
             <select id="roundingOption" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500">
@@ -208,7 +206,7 @@
         </div>
 
         <!-- Members Table -->
-        <div class="space-y-2 mb-3 max-h-80 overflow-y-auto pr-1" id="membersList">
+        <div class="space-y-2 mb-3 max-h-80 overflow-y-auto overflow-x-hidden pr-0.5 sm:pr-1" id="membersList">
           <!-- Member items -->
         </div>
 
@@ -218,13 +216,18 @@
       </div>
 
       <!-- 4. Thông tin tài khoản nhận tiền & VietQR -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">4</span>
-            Thông tin chuyển khoản & VietQR
-          </h2>
-          <span class="text-xs text-slate-400">Tự động tạo QR quét 1 chạm</span>
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
+          <div class="flex items-center gap-2 min-w-0 flex-wrap">
+            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
+              <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+              <span class="truncate">Thông tin chuyển khoản & VietQR</span>
+            </h2>
+            <span id="badgeCurrentDefault" class="text-[11px] font-bold text-purple-700 bg-purple-100 border border-purple-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1 shrink-0 transition-opacity">
+              ⭐ Đang là mặc định
+            </span>
+          </div>
+          <span class="text-xs text-slate-400 hidden sm:inline shrink-0">Tự động tạo QR quét 1 chạm</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -265,24 +268,41 @@
             <input type="text" id="transferMemo" value="Chia bill an trua" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
           </div>
         </div>
+
+        <!-- Thanh Lưu mặc định: Chỉ tự động xuất hiện khi người dùng sửa đổi khác với mặc định đã lưu -->
+        <div id="boxSaveCustomDefault" class="hidden mt-4 pt-3.5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-amber-50/80 p-3 rounded-xl border border-amber-200">
+          <div class="min-w-0">
+            <span class="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+              <span>💡</span> Phát hiện tài khoản mới chưa lưu
+            </span>
+            <p class="text-[11px] text-amber-800/90 mt-0.5">
+              Bạn có muốn lưu tài khoản này làm mặc định cho các lần sau không?
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" id="btnSaveCustomDefault" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs whitespace-nowrap">
+              <span>💾</span> Lưu làm mặc định mới
+            </button>
+          </div>
+        </div>
       </div>
 
     </div>
 
     <!-- RIGHT COLUMN: Live Bill Preview & Export Actions (5 cols) -->
-    <div class="lg:col-span-5 sticky top-20 space-y-4">
+    <div class="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
 
       <!-- Action Buttons Bar -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-wrap gap-2.5 items-center justify-between">
+      <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col sm:flex-row gap-2.5 sm:items-center justify-between">
         <div>
           <span class="text-xs font-bold text-slate-900 block">Xuất kết quả</span>
           <span class="text-[11px] text-slate-500">Ảnh chất lượng cao 3x Retina</span>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="btnCopyText" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-slate-300">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button id="btnCopyText" class="flex-1 sm:flex-none px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 border border-slate-300">
             <span>📋</span> Copy chữ
           </button>
-          <button id="btnDownloadImage" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-purple-500/25">
+          <button id="btnDownloadImage" class="flex-1 sm:flex-none px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md shadow-purple-500/25">
             <span>📸</span> Tải ảnh Bill (PNG)
           </button>
         </div>
@@ -384,15 +404,15 @@
 
   <!-- APPLICATION LOGIC -->
   <script>
-    const STORAGE_KEY = 'chia_bill_state_v7';
+    const STORAGE_KEY = 'chia_bill_state_v9';
 
-    // State management with 0 amount by default + MoMo information
+    // State management with 0 amount by default + MoMo information + 1 member by default
     const defaultState = {
       title: "CHIA TIỀN ĂN UỐNG",
       theme: "violet", // Màu tím mặc định lên đầu
       expenses: [
         { id: '1', name: '', amount: 0 }
-      ], 
+      ],
       payerName: "Hương",
       rounding: "1000",
       bank: "momo",
@@ -400,11 +420,7 @@
       accountName: "",
       memo: "Chia bill an trua",
       members: [
-        { id: 'm1', name: 'Hương', isFixed: false, fixedAmount: 0 },
-        { id: 'm2', name: 'Bạn A', isFixed: false, fixedAmount: 0 },
-        { id: 'm3', name: 'Bạn B', isFixed: false, fixedAmount: 0 },
-        { id: 'm4', name: 'Bạn C', isFixed: false, fixedAmount: 0 },
-        { id: 'm5', name: 'Bạn D', isFixed: false, fixedAmount: 0 }
+        { id: 'm1', name: 'Hương', isFixed: false, fixedAmount: 0 }
       ]
     };
 
@@ -541,14 +557,14 @@
 
       state.expenses.forEach((item) => {
         const row = document.createElement('div');
-        row.className = "flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200/90";
+        row.className = "flex items-center gap-1.5 sm:gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200/90";
         row.innerHTML = `
-          <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên khoản chi (ví dụ: Tiền ăn trưa)" class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-purple-500 font-medium">
-          <div class="relative w-36">
-            <input type="text" data-id="${item.id}" data-field="amount" value="${item.amount > 0 ? formatMoney(item.amount) : ''}" placeholder="0" class="w-full bg-white border border-slate-200 rounded-lg pl-2.5 pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
-            <span class="absolute right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
+          <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên món/khoản chi" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-2 sm:px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-purple-500 font-medium">
+          <div class="relative w-28 sm:w-36 shrink-0">
+            <input type="text" data-id="${item.id}" data-field="amount" value="${item.amount > 0 ? formatMoney(item.amount) : ''}" placeholder="0" class="w-full bg-white border border-slate-200 rounded-lg pl-2 pr-5 sm:pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
+            <span class="absolute right-1.5 sm:right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
           </div>
-          <button data-id="${item.id}" class="btnDeleteExpense text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Xóa món">
+          <button data-id="${item.id}" class="btnDeleteExpense text-slate-400 hover:text-rose-600 p-1 sm:p-1.5 rounded-lg hover:bg-rose-50 transition shrink-0" title="Xóa món">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           </button>
         `;
@@ -593,22 +609,30 @@
 
       state.members.forEach((m, index) => {
         const row = document.createElement('div');
-        row.className = "flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200/90 text-xs";
+        row.className = "flex items-center gap-1.5 sm:gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200/90 text-xs";
+        
+        let fixedAmountHtml = '';
+        if (m.isFixed) {
+          fixedAmountHtml = `
+            <div class="relative shrink-0" style="width: 86px;">
+              <input type="text" data-id="${m.id}" data-field="fixedAmount" value="${formatMoney(m.fixedAmount || 0)}" placeholder="0" class="w-full bg-white border border-purple-300 rounded-lg pl-1.5 pr-4 py-1.5 text-xs text-purple-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500 shadow-2xs">
+              <span class="absolute right-1 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
+            </div>
+          `;
+        }
+
         row.innerHTML = `
-          <span class="w-5 text-center text-slate-400 font-mono text-[11px] font-semibold">${index + 1}</span>
-          <input type="text" data-id="${m.id}" data-field="name" value="${m.name}" placeholder="Tên thành viên" class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500">
+          <span class="w-4 sm:w-5 text-center text-slate-400 font-mono text-[11px] font-semibold shrink-0">${index + 1}</span>
+          <input type="text" data-id="${m.id}" data-field="name" value="${m.name}" placeholder="Tên" class="flex-1 min-w-[70px] bg-white border border-slate-200 rounded-lg px-2 sm:px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500 shadow-2xs">
           
-          <select data-id="${m.id}" data-field="mode" class="bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] text-slate-700 font-medium focus:outline-none">
+          <select data-id="${m.id}" data-field="mode" class="bg-white border border-slate-200 rounded-lg px-1.5 sm:px-2 py-1.5 text-[11px] text-slate-700 font-medium focus:outline-none shrink-0 shadow-2xs">
             <option value="even" ${!m.isFixed ? 'selected' : ''}>Chia đều</option>
             <option value="fixed" ${m.isFixed ? 'selected' : ''}>Cố định</option>
           </select>
 
-          <div class="relative w-28 ${m.isFixed ? '' : 'opacity-40 pointer-events-none'}">
-            <input type="text" data-id="${m.id}" data-field="fixedAmount" value="${formatMoney(m.fixedAmount || 0)}" placeholder="Số tiền" class="w-full bg-white border border-slate-200 rounded-lg pl-2 pr-5 py-1.5 text-xs text-emerald-700 font-mono text-right font-bold focus:outline-none">
-            <span class="absolute right-1.5 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
-          </div>
+          ${fixedAmountHtml}
 
-          <button data-id="${m.id}" class="btnDeleteMember text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Xóa người">
+          <button data-id="${m.id}" class="btnDeleteMember text-slate-400 hover:text-rose-600 p-1 sm:p-1.5 rounded-lg hover:bg-rose-50 transition shrink-0" title="Xóa người">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           </button>
         `;
@@ -926,53 +950,79 @@
       } catch (e) {}
     }
 
+    function getEffectiveDefaultState() {
+      const base = JSON.parse(JSON.stringify(defaultState));
+      try {
+        const customDef = localStorage.getItem('CHIABILL_MY_DEFAULT_ACCOUNT');
+        if (customDef) {
+          const parsed = JSON.parse(customDef);
+          if (parsed.bank) base.bank = parsed.bank;
+          if (parsed.accountNo !== undefined) base.accountNo = parsed.accountNo;
+          if (parsed.accountName) base.accountName = parsed.accountName;
+          if (parsed.payerName) {
+            base.payerName = parsed.payerName;
+            base.members = [{ id: 'm1', name: parsed.payerName, isFixed: false, fixedAmount: 0 }];
+          }
+        }
+      } catch (e) {}
+      return base;
+    }
+
     function loadFromLocalStorage() {
       try {
+        localStorage.removeItem('chia_bill_state_v7');
+        localStorage.removeItem('chia_bill_state_v8');
+        
+        // Bắt đầu từ tài khoản mặc định của người dùng (nếu đã lưu) hoặc mặc định hệ thống
+        const effDefault = getEffectiveDefaultState();
+        Object.assign(state, effDefault);
+
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
+          if (parsed.accountName && parsed.accountName.includes('Bình')) {
+            parsed.accountName = effDefault.accountName;
+            parsed.bank = effDefault.bank;
+            parsed.accountNo = effDefault.accountNo;
+            parsed.payerName = effDefault.payerName;
+          }
           Object.assign(state, parsed);
         }
       } catch (e) {}
     }
 
-    // Preset: Team Building sample (15 people)
-    function loadSampleTeamBuilding() {
-      state.title = "TEAM BUILDING";
-      state.theme = "violet"; // Default purple
-      state.expenses = [
-        { id: '1', name: 'Tiền nhậu', amount: 2989000 },
-        { id: '2', name: 'Bánh sinh nhật', amount: 248000 }
-      ];
-      state.payerName = "Anh Bình";
-      state.rounding = "1000";
-      state.bank = "VPBank";
-      state.accountNo = "199129392";
-      state.accountName = "Trần Ngọc Bình";
-      state.memo = "Team building tien an";
-      state.members = [
-        { id: 'm1', name: 'Long Phạm', isFixed: false, fixedAmount: 0 },
-        { id: 'm2', name: 'Anh Vĩnh', isFixed: false, fixedAmount: 0 },
-        { id: 'm3', name: 'Long Nguyễn', isFixed: false, fixedAmount: 0 },
-        { id: 'm4', name: 'Khoa', isFixed: false, fixedAmount: 0 },
-        { id: 'm5', name: 'Thọ', isFixed: false, fixedAmount: 0 },
-        { id: 'm6', name: 'Hoàng', isFixed: false, fixedAmount: 0 },
-        { id: 'm7', name: 'Công', isFixed: false, fixedAmount: 0 },
-        { id: 'm8', name: 'Hương', isFixed: false, fixedAmount: 0 },
-        { id: 'm9', name: 'Tài', isFixed: false, fixedAmount: 0 },
-        { id: 'm10', name: 'Nhàn', isFixed: false, fixedAmount: 0 },
-        { id: 'm11', name: 'Dung', isFixed: false, fixedAmount: 0 },
-        { id: 'm12', name: 'Mai', isFixed: false, fixedAmount: 0 },
-        { id: 'm13', name: 'Nhâm', isFixed: false, fixedAmount: 0 },
-        { id: 'm14', name: 'Phụng', isFixed: true, fixedAmount: 200000 },
-        { id: 'm15', name: 'Anh Bình', isFixed: false, fixedAmount: 0 }
-      ];
 
-      syncFormFromState();
-      renderExpensesForm();
-      renderMembersForm();
-      updateAll();
-      showToast('Đã nạp số liệu mẫu Team Building!', '🎉');
+    function checkDefaultAccountDirty() {
+      const effDefault = getEffectiveDefaultState();
+      const bankElem = document.getElementById('bankSelect');
+      const accNoElem = document.getElementById('accountNo');
+      const accNameElem = document.getElementById('accountName');
+
+      const curBank = bankElem ? bankElem.value : state.bank;
+      const curAccNo = (accNoElem ? accNoElem.value : (state.accountNo || '')).trim();
+      const curAccName = (accNameElem ? accNameElem.value : (state.accountName || '')).trim().toUpperCase();
+
+      const defBank = effDefault.bank;
+      const defAccNo = (effDefault.accountNo || '').trim();
+      const defAccName = (effDefault.accountName || '').trim().toUpperCase();
+
+      const boxSave = document.getElementById('boxSaveCustomDefault');
+      const badgeDefault = document.getElementById('badgeCurrentDefault');
+
+      const isMatching = (curBank === defBank && curAccNo === defAccNo && curAccName === defAccName);
+
+      if (boxSave && badgeDefault) {
+        if (isMatching) {
+          boxSave.classList.add('hidden');
+          badgeDefault.classList.remove('hidden');
+        } else if (curAccNo.length > 0) {
+          boxSave.classList.remove('hidden');
+          badgeDefault.classList.add('hidden');
+        } else {
+          boxSave.classList.add('hidden');
+          badgeDefault.classList.add('hidden');
+        }
+      }
     }
 
     function syncFormFromState() {
@@ -983,6 +1033,7 @@
       document.getElementById('accountNo').value = state.accountNo;
       document.getElementById('accountName').value = state.accountName;
       document.getElementById('transferMemo').value = state.memo;
+      checkDefaultAccountDirty();
     }
 
     // Export: Download as PNG image
@@ -1096,16 +1147,19 @@
       document.getElementById('bankSelect').addEventListener('change', (e) => {
         state.bank = e.target.value;
         updateAll();
+        checkDefaultAccountDirty();
       });
 
       document.getElementById('accountNo').addEventListener('input', (e) => {
         state.accountNo = e.target.value;
         updateAll();
+        checkDefaultAccountDirty();
       });
 
       document.getElementById('accountName').addEventListener('input', (e) => {
         state.accountName = e.target.value;
         updateAll();
+        checkDefaultAccountDirty();
       });
 
       document.getElementById('transferMemo').addEventListener('input', (e) => {
@@ -1134,6 +1188,13 @@
         updateAll();
       });
 
+      document.getElementById('quickNamesInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('btnQuickAdd').click();
+        }
+      });
+
       document.getElementById('btnQuickAdd').addEventListener('click', () => {
         const input = document.getElementById('quickNamesInput');
         const val = input.value.trim();
@@ -1142,35 +1203,83 @@
         const names = val.split(/[,\n]+/).map(n => n.trim()).filter(Boolean);
         if (names.length === 0) return;
 
-        names.forEach(name => {
-          state.members.push({
-            id: 'mem_' + Math.random().toString(36).substr(2, 9),
-            name: name,
-            isFixed: false,
-            fixedAmount: 0
-          });
-        });
+        // Thay thế toàn bộ danh sách thành viên bằng đúng số người nhập nhanh (không cộng dồn người cũ)
+        state.members = names.map(name => ({
+          id: 'mem_' + Math.random().toString(36).substr(2, 9),
+          name: name,
+          isFixed: false,
+          fixedAmount: 0
+        }));
+
+        // Tự động đồng bộ người chi ứng trước
+        if (!state.members.some(m => m.name.trim().toLowerCase() === state.payerName.trim().toLowerCase())) {
+          state.payerName = state.members[0].name;
+        }
 
         input.value = '';
+        populatePayerDropdown();
         renderMembersForm();
         updateAll();
-        showToast(`Đã thêm ${names.length} người!`, '✨');
+        showToast(`Đã thiết lập ${names.length} người!`, '✨');
       });
 
-      document.getElementById('btnLoadSampleTeam').addEventListener('click', loadSampleTeamBuilding);
-      
+
+      // Lưu tài khoản hiện tại làm mặc định của riêng người dùng
+      document.getElementById('btnSaveCustomDefault').addEventListener('click', () => {
+        const bank = document.getElementById('bankSelect').value;
+        const accountNo = document.getElementById('accountNo').value.trim();
+        const accountName = document.getElementById('accountName').value.trim().toUpperCase();
+
+        if (!accountNo || !accountName) {
+          showToast('Vui lòng nhập Số tài khoản và Tên chủ tài khoản trước khi lưu!', '⚠️');
+          return;
+        }
+
+        // Tự động suy ra tên ngắn cho người trả (Ví dụ: NGUYỄN VĂN AN -> An)
+        const nameParts = accountName.split(/\s+/).filter(Boolean);
+        const shortName = nameParts.length > 0 
+          ? (nameParts[nameParts.length - 1].charAt(0).toUpperCase() + nameParts[nameParts.length - 1].slice(1).toLowerCase())
+          : state.payerName;
+
+        const customData = {
+          bank,
+          accountNo,
+          accountName,
+          payerName: shortName
+        };
+
+        try {
+          localStorage.setItem('CHIABILL_MY_DEFAULT_ACCOUNT', JSON.stringify(customData));
+          state.bank = bank;
+          state.accountNo = accountNo;
+          state.accountName = accountName;
+
+          if (state.members.length === 1) {
+            state.members[0].name = shortName;
+            state.payerName = shortName;
+          }
+
+          syncFormFromState();
+          populatePayerDropdown();
+          renderMembersForm();
+          updateAll();
+          showToast(`⭐ Đã lưu tài khoản (${accountName}) làm mặc định của bạn!`, '✅');
+        } catch (e) {
+          showToast('Không thể lưu vào bộ nhớ trình duyệt!', '⚠️');
+        }
+      });
+
+      // Nút Xóa trắng: Đưa về trạng thái mặc định của người dùng
       document.getElementById('btnReset').addEventListener('click', () => {
-        if (!confirm('Bạn có chắc muốn xóa trắng dữ liệu không?')) return;
-        state.expenses = [{ id: 'exp_' + Date.now(), name: '', amount: 0 }];
-        state.members.forEach(m => {
-          m.isFixed = false;
-          m.fixedAmount = 0;
-        });
+        if (!confirm('Bạn có chắc muốn xóa trắng dữ liệu về mặc định không?')) return;
+        const effDefault = getEffectiveDefaultState();
+        state = effDefault;
         syncFormFromState();
+        populatePayerDropdown();
         renderExpensesForm();
         renderMembersForm();
         updateAll();
-        showToast('Đã xóa trắng số tiền về 0!', '🧹');
+        showToast(`Đã xóa trắng! Tài khoản mặc định: ${state.accountName}`, '🧹');
       });
 
       document.getElementById('btnDownloadImage').addEventListener('click', downloadReceiptImage);
