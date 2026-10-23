@@ -73,24 +73,27 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #94A3B8;
     }
+    .receipt-shadow {
+      box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
   </style>
 </head>
-<body class="min-h-screen bg-slate-100/70 text-slate-800 flex flex-col">
+<body class="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col pb-20 lg:pb-8">
 
   <!-- Header Navbar -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-base sm:text-xl shadow-md shadow-purple-500/20 shrink-0">
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-extrabold text-base sm:text-xl shadow-md shadow-purple-500/25 shrink-0">
           💸
         </div>
         <div class="min-w-0">
           <h1 class="font-extrabold text-base sm:text-lg text-slate-900 leading-tight truncate">ChiaBill Pro</h1>
-          <p class="text-[11px] sm:text-xs text-slate-500 font-medium hidden sm:block">Tạo bill chia tiền & mã QR thanh toán chuẩn đẹp</p>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium hidden sm:block">Tạo hóa đơn chia tiền & mã VietQR thanh toán chuẩn đẹp</p>
         </div>
       </div>
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <button id="btnReset" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 transition flex items-center gap-1 shadow-2xs">
+        <button id="btnReset" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 transition flex items-center gap-1.5 shadow-2xs">
           <span>🧹</span> Xóa trắng
         </button>
       </div>
@@ -98,191 +101,191 @@
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
     
     <!-- LEFT COLUMN: Form Inputs (7 cols) -->
-    <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+    <div class="lg:col-span-7 space-y-4 min-w-0">
 
-      <!-- 1. Sự kiện & Chủ đề -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
-            <span class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold shrink-0">1</span>
-            <span class="truncate">Thông tin sự kiện & Giao diện bill</span>
-          </h2>
-          <span class="text-xs text-slate-400 hidden sm:inline shrink-0">Tùy biến tiêu đề và màu sắc hóa đơn</span>
+      <!-- 1. Sự kiện & Khoản chi tiêu -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+        <div class="px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60 gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-6 h-6 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span>
+            <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Thông tin sự kiện & Khoản chi</h2>
+          </div>
+          <span class="text-[11px] sm:text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-lg shrink-0">
+            Tổng chi: <span id="labelTotalExpense" class="font-extrabold text-purple-800">0 đ</span>
+          </span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          <div class="md:col-span-2">
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tên sự kiện / Tiêu đề hóa đơn</label>
-            <input type="text" id="eventTitle" value="CHIA TIỀN ĂN UỐNG" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold uppercase tracking-wide focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition">
+        <div class="p-3.5 sm:p-5 space-y-3.5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tên sự kiện / Tiêu đề hóa đơn</label>
+              <input type="text" id="eventTitle" value="CHIA TIỀN ĂN UỐNG" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 font-bold uppercase tracking-wide focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition shadow-2xs">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Màu chủ đạo bill</label>
+              <select id="cardTheme" class="w-full bg-white border border-slate-300 rounded-xl px-2.5 py-2 text-xs sm:text-sm text-slate-900 font-semibold focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition shadow-2xs">
+                <option value="violet" selected>Màu Tím (Royal)</option>
+                <option value="maroon">Đỏ Mận (Classic)</option>
+                <option value="navy">Xanh Navy (Hiện đại)</option>
+                <option value="emerald">Xanh Rêu (Tinh tế)</option>
+                <option value="slate">Xám Đen (Tối giản)</option>
+                <option value="amber">Cam Nắng (Năng động)</option>
+              </select>
+            </div>
           </div>
+
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Màu chủ đạo bill</label>
-            <select id="cardTheme" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 font-medium focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition">
-              <option value="violet" selected>Màu Tím (Mặc định)</option>
-              <option value="maroon">Đỏ Mận (Classic)</option>
-              <option value="navy">Xanh Navy (Hiện đại)</option>
-              <option value="emerald">Xanh Rêu (Tinh tế)</option>
-              <option value="slate">Xám Đen (Tối giản)</option>
-              <option value="amber">Cam Nắng (Năng động)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Chi tiết món ăn / khoản chi:</label>
+            <div id="expenseList" class="space-y-2 mb-2.5">
+              <!-- Dynamically inserted expense item rows -->
+            </div>
 
-      <!-- 2. Danh sách khoản chi -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
-            <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold shrink-0">2</span>
-            <span class="truncate">Danh sách các khoản chi tiêu</span>
-          </h2>
-          <div class="text-right shrink-0">
-            <span class="text-xs text-slate-500 font-medium">Tổng tiền:</span>
-            <span id="labelTotalExpense" class="text-sm font-extrabold text-amber-600 ml-1">0 đ</span>
-          </div>
-        </div>
-
-        <!-- Expense Rows Container -->
-        <div id="expenseList" class="space-y-2 sm:space-y-2.5 mb-3">
-          <!-- Dynamically inserted expense item rows -->
-        </div>
-
-        <button id="btnAddExpense" class="w-full py-2.5 border border-dashed border-slate-300 hover:border-purple-400 rounded-xl text-xs font-semibold text-slate-600 hover:text-purple-700 hover:bg-purple-50/50 transition flex items-center justify-center gap-1.5">
-          <span>➕</span> Thêm món / khoản chi tiêu mới
-        </button>
-      </div>
-
-      <!-- 3. Thành viên & Cách chia tiền -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
-          <div class="min-w-0">
-            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">3</span>
-              <span class="truncate">Thành viên & Cơ chế chia tiền</span>
-            </h2>
-            <p class="text-xs text-slate-500 mt-0.5 hidden sm:block">Ai đã ứng trước, ai đóng cố định, ai chia đều</p>
-          </div>
-          <div class="text-right shrink-0">
-            <span class="text-xs text-slate-500 font-medium">Tổng số:</span>
-            <span id="labelMemberCount" class="text-sm font-bold text-emerald-700 ml-1">0</span>
-            <span class="text-xs text-slate-400">người</span>
-          </div>
-        </div>
-
-        <!-- Quick Input Box -->
-        <div class="mb-4 bg-purple-50/40 p-3 sm:p-3.5 rounded-xl border border-purple-100">
-          <label class="block text-xs font-semibold text-purple-900 mb-1.5 flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-            <span>⚡ Nhập nhanh danh sách tên:</span>
-            <span class="text-[11px] text-purple-600/80 font-normal hidden sm:inline">Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D...</span>
-          </label>
-          <div class="flex gap-2">
-            <input type="text" id="quickNamesInput" placeholder="Ví dụ: Bạn A, Bạn B, Bạn C, Bạn D, Bạn E..." class="flex-1 min-w-0 bg-white border border-purple-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-200">
-            <button id="btnQuickAdd" class="px-3 sm:px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition shadow-2xs shrink-0">
-              Nhập nhanh
+            <button id="btnAddExpense" class="w-full py-2 border-2 border-dashed border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 rounded-xl text-xs font-bold text-slate-600 hover:text-purple-700 transition flex items-center justify-center gap-1.5">
+              <span>➕</span> Thêm món / khoản chi tiêu mới
             </button>
           </div>
         </div>
-
-        <!-- Rounding Rule & Payer Selection -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-4 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200/80">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Quy tắc làm tròn số tiền:</label>
-            <select id="roundingOption" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500">
-              <option value="1000" selected>Làm tròn lên 1.000 đ (Ví dụ: 216.929 ➔ 217.000)</option>
-              <option value="5000">Làm tròn lên 5.000 đ (Ví dụ: 216.929 ➔ 220.000)</option>
-              <option value="10000">Làm tròn lên 10.000 đ</option>
-              <option value="none">Không làm tròn (giữ số nguyên chính xác)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Người đã chi ứng trước toàn bộ:</label>
-            <select id="selectPayer" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-purple-700 font-bold focus:outline-none focus:border-purple-500">
-              <!-- Dynamically populated -->
-            </select>
-          </div>
-        </div>
-
-        <!-- Members Table -->
-        <div class="space-y-2 mb-3 max-h-80 overflow-y-auto overflow-x-hidden pr-0.5 sm:pr-1" id="membersList">
-          <!-- Member items -->
-        </div>
-
-        <button id="btnAddMember" class="w-full py-2.5 border border-dashed border-slate-300 hover:border-emerald-500 rounded-xl text-xs font-semibold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/50 transition flex items-center justify-center gap-1.5">
-          <span>➕</span> Thêm 1 thành viên
-        </button>
       </div>
 
-      <!-- 4. Thông tin tài khoản nhận tiền & VietQR -->
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-2">
-          <div class="flex items-center gap-2 min-w-0 flex-wrap">
-            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2 min-w-0">
-              <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">4</span>
-              <span class="truncate">Thông tin chuyển khoản & VietQR</span>
-            </h2>
-            <span id="badgeCurrentDefault" class="text-[11px] font-bold text-purple-700 bg-purple-100 border border-purple-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1 shrink-0 transition-opacity">
-              ⭐ Đang là mặc định
-            </span>
+      <!-- 2. Thành viên & Cách chia tiền (NỔI RÕ ĐANG CÓ MẤY NGƯỜI) -->
+      <div class="bg-white border-2 border-emerald-500/40 rounded-2xl shadow-xs overflow-hidden">
+        <div class="px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-emerald-100 flex items-center justify-between bg-emerald-50/50 gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
+            <div class="min-w-0">
+              <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Thành viên & Cơ chế chia</h2>
+              <p class="text-[11px] text-slate-500 hidden sm:block">Ai đã ứng trước, ai chia đều hoặc cố định</p>
+            </div>
           </div>
-          <span class="text-xs text-slate-400 hidden sm:inline shrink-0">Tự động tạo QR quét 1 chạm</span>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Ngân hàng thụ hưởng</label>
-            <select id="bankSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 font-medium focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
-              <option value="momo" data-bin="971025" selected>Ví MoMo</option>
-              <option value="VPBank" data-bin="970432">VPBank (Ngân hàng Việt Nam Thịnh Vượng)</option>
-              <option value="Vietcombank" data-bin="970436">Vietcombank (VCB)</option>
-              <option value="MBBank" data-bin="970422">MB Bank (Quân Đội)</option>
-              <option value="Techcombank" data-bin="970407">Techcombank (TCB)</option>
-              <option value="ACB" data-bin="970416">ACB (Á Châu)</option>
-              <option value="BIDV" data-bin="970418">BIDV (Đầu tư và Phát triển)</option>
-              <option value="VietinBank" data-bin="970415">VietinBank (Công Thương)</option>
-              <option value="TPBank" data-bin="970423">TPBank (Tiên Phong)</option>
-              <option value="Agribank" data-bin="970405">Agribank (Nông nghiệp)</option>
-              <option value="VIB" data-bin="970441">VIB (Quốc tế)</option>
-              <option value="Sacombank" data-bin="970403">Sacombank (Sài Gòn Thương Tín)</option>
-              <option value="HDBank" data-bin="970437">HDBank (Phát triển TP.HCM)</option>
-              <option value="SHB" data-bin="970443">SHB (Sài Gòn - Hà Nội)</option>
-              <option value="MSB" data-bin="970426">MSB (Hàng Hải)</option>
-              <option value="SeABank" data-bin="970440">SeABank (Đông Nam Á)</option>
-              <option value="OCB" data-bin="970448">OCB (Phương Đông)</option>
-              <option value="Timo" data-bin="963388">Timo by BVBank</option>
-              <option value="Cake" data-bin="546034">Cake by VPBank</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Số tài khoản (STK)</label>
-            <input type="text" id="accountNo" value="" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-mono font-bold focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tên chủ tài khoản</label>
-            <input type="text" id="accountName" value="" placeholder="Ví dụ: NGUYEN VAN AN" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold uppercase focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nội dung chuyển khoản</label>
-            <input type="text" id="transferMemo" value="Chia bill an trua" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100">
+          <!-- HUY HIỆU TỔNG SỐ NGƯỜI NỔI BẬT LÚC NHẬP LIỆU -->
+          <div class="bg-emerald-600 text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-2xs flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <span class="text-xs">👥</span>
+            <span class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wide">ĐANG CÓ:</span>
+            <span id="labelMemberCount" class="text-xs sm:text-base font-black font-mono">1</span>
+            <span class="text-[10px] sm:text-xs font-bold">NGƯỜI</span>
           </div>
         </div>
 
-        <!-- Thanh Lưu mặc định: Chỉ tự động xuất hiện khi người dùng sửa đổi khác với mặc định đã lưu -->
-        <div id="boxSaveCustomDefault" class="hidden mt-4 pt-3.5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-amber-50/80 p-3 rounded-xl border border-amber-200">
-          <div class="min-w-0">
-            <span class="text-xs font-bold text-amber-950 flex items-center gap-1.5">
-              <span>💡</span> Phát hiện tài khoản mới chưa lưu
-            </span>
-            <p class="text-[11px] text-amber-800/90 mt-0.5">
-              Bạn có muốn lưu tài khoản này làm mặc định cho các lần sau không?
-            </p>
+        <div class="p-3.5 sm:p-5 space-y-3.5">
+          <!-- Người ứng tiền & Làm tròn -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1 flex items-center gap-1">
+                <span>👑 Người đã ứng trước toàn bộ:</span>
+              </label>
+              <select id="selectPayer" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-purple-700 font-extrabold focus:border-purple-600 focus:outline-none">
+                <!-- Dynamically populated -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Quy tắc làm tròn số tiền:</label>
+              <select id="roundingOption" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-semibold focus:border-purple-600 focus:outline-none">
+                <option value="1000" selected>Làm tròn lên 1.000 đ (Ví dụ: 216.929 ➔ 217.000)</option>
+                <option value="5000">Làm tròn lên 5.000 đ (Ví dụ: 216.929 ➔ 220.000)</option>
+                <option value="10000">Làm tròn lên 10.000 đ</option>
+                <option value="none">Không làm tròn (giữ số nguyên chính xác)</option>
+              </select>
+            </div>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button type="button" id="btnSaveCustomDefault" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs whitespace-nowrap">
-              <span>💾</span> Lưu làm mặc định mới
-            </button>
+
+          <!-- Quick Add Bar -->
+          <div>
+            <div class="flex items-center justify-between mb-1 text-xs">
+              <span class="font-bold text-slate-700 flex items-center gap-1">
+                <span>⚡</span> Nhập nhanh danh sách tên:
+              </span>
+              <span class="text-[11px] text-purple-600 font-medium hidden sm:inline">Ví dụ: Hương, Bình, Nam, An...</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="quickNamesInput" placeholder="Ví dụ: Hương, Bình, Nam, An, Cường..." class="flex-1 min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500/20">
+              <button id="btnQuickAdd" class="px-3.5 sm:px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition shadow-2xs shrink-0">
+                Nhập nhanh
+              </button>
+            </div>
+          </div>
+
+          <!-- Members Table -->
+          <div class="space-y-2 mb-2 max-h-80 overflow-y-auto overflow-x-hidden pr-0.5 sm:pr-1" id="membersList">
+            <!-- Member items -->
+          </div>
+
+          <button id="btnAddMember" class="w-full py-2 border-2 border-dashed border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 rounded-xl text-xs font-bold text-slate-600 hover:text-emerald-700 transition flex items-center justify-center gap-1.5">
+            <span>➕</span> Thêm 1 người tham gia
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Thông tin tài khoản nhận tiền & VietQR -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+        <div class="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60 gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-6 h-6 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
+            <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Thông tin chuyển khoản & VietQR</h2>
+          </div>
+          <span id="badgeCurrentDefault" class="text-[11px] sm:text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0">
+            ⭐ Đang là mặc định
+          </span>
+        </div>
+
+        <div class="p-3.5 sm:p-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Ngân hàng thụ hưởng</label>
+              <select id="bankSelect" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 font-bold focus:border-purple-600 focus:outline-none truncate">
+                <option value="momo" data-bin="971025" selected>Ví MoMo</option>
+                <option value="VPBank" data-bin="970432">VPBank (Ngân hàng Việt Nam Thịnh Vượng)</option>
+                <option value="Vietcombank" data-bin="970436">Vietcombank (VCB)</option>
+                <option value="MBBank" data-bin="970422">MB Bank (Quân Đội)</option>
+                <option value="Techcombank" data-bin="970407">Techcombank (TCB)</option>
+                <option value="ACB" data-bin="970416">ACB (Á Châu)</option>
+                <option value="BIDV" data-bin="970418">BIDV (Đầu tư và Phát triển)</option>
+                <option value="VietinBank" data-bin="970415">VietinBank (Công Thương)</option>
+                <option value="TPBank" data-bin="970423">TPBank (Tiên Phong)</option>
+                <option value="Agribank" data-bin="970405">Agribank (Nông nghiệp)</option>
+                <option value="VIB" data-bin="970441">VIB (Quốc tế)</option>
+                <option value="Sacombank" data-bin="970403">Sacombank (Sài Gòn Thương Tín)</option>
+                <option value="HDBank" data-bin="970437">HDBank (Phát triển TP.HCM)</option>
+                <option value="SHB" data-bin="970443">SHB (Sài Gòn - Hà Nội)</option>
+                <option value="MSB" data-bin="970426">MSB (Hàng Hải)</option>
+                <option value="SeABank" data-bin="970440">SeABank (Đông Nam Á)</option>
+                <option value="OCB" data-bin="970448">OCB (Phương Đông)</option>
+                <option value="Timo" data-bin="963388">Timo by BVBank</option>
+                <option value="Cake" data-bin="546034">Cake by VPBank</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Số tài khoản (STK)</label>
+              <input type="text" id="accountNo" value="" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-900 font-mono font-bold focus:border-purple-600 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tên chủ tài khoản</label>
+              <input type="text" id="accountName" value="" placeholder="Ví dụ: NGUYEN VAN AN" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-900 font-bold uppercase focus:border-purple-600 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nội dung chuyển khoản</label>
+              <input type="text" id="transferMemo" value="Chia bill an trua" placeholder="Để trống nếu không muốn hiển thị" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-900 font-medium focus:border-purple-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Thanh Lưu mặc định: Tự động xuất hiện khi sửa đổi khác mặc định -->
+          <div id="boxSaveCustomDefault" class="hidden mt-4 pt-3.5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-amber-50/80 p-3 rounded-xl border border-amber-200">
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                <span>💡</span> Phát hiện tài khoản mới chưa lưu
+              </span>
+              <p class="text-[11px] text-amber-800/90 mt-0.5">
+                Bạn có muốn lưu tài khoản này làm mặc định cho các lần sau không?
+              </p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" id="btnSaveCustomDefault" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs whitespace-nowrap">
+                <span>💾</span> Lưu làm mặc định mới
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -290,76 +293,79 @@
     </div>
 
     <!-- RIGHT COLUMN: Live Bill Preview & Export Actions (5 cols) -->
-    <div class="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
+    <div id="billSection" class="lg:col-span-5 lg:sticky lg:top-20 space-y-4 min-w-0 scroll-mt-16 sm:scroll-mt-20">
 
-      <!-- Action Buttons Bar -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col sm:flex-row gap-2.5 sm:items-center justify-between">
-        <div>
-          <span class="text-xs font-bold text-slate-900 block">Xuất kết quả</span>
-          <span class="text-[11px] text-slate-500">Ảnh chất lượng cao 3x Retina</span>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button id="btnCopyText" class="flex-1 sm:flex-none px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 border border-slate-300">
-            <span>📋</span> Copy chữ
-          </button>
-          <button id="btnDownloadImage" class="flex-1 sm:flex-none px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md shadow-purple-500/25">
-            <span>📸</span> Tải ảnh Bill (PNG)
-          </button>
-        </div>
-      </div>
-
-      <!-- Live Card Preview Outer wrapper (for centering) -->
+      <!-- THE BILL CARD (Target for html2canvas) -->
       <div class="flex justify-center w-full">
-        
-        <!-- THE BILL CARD (Target for html2canvas) -->
-        <div id="billReceiptCard" class="w-full max-w-[420px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300" style="background-color: #FAF6F0; color: #1E293B; border: 1px solid #E2D9CF;">
+        <div id="billReceiptCard" class="w-full max-w-[420px] rounded-3xl overflow-hidden receipt-shadow transition-all duration-300" style="background-color: #FFFFFF; color: #1E293B; border: 1px solid #E2E8F0;">
           
-          <!-- Card Header Banner -->
-          <div id="receiptHeader" class="px-5 py-4 text-white transition-colors duration-300" style="background-color: #6B21A8;">
-            <h2 id="previewTitle" class="text-xl font-extrabold tracking-wide uppercase leading-tight">CHIA TIỀN ĂN UỐNG</h2>
-            <p id="previewSubtitle" class="text-xs font-medium text-white/80 mt-1">Chia bill · 5 người</p>
+          <!-- Card Header Banner (NỔI RÕ TỔNG SỐ NGƯỜI) -->
+          <div id="receiptHeader" class="px-5 py-4 text-white transition-colors duration-300 relative overflow-hidden" style="background-color: #6B21A8;">
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-purple-200 block">HÓA ĐƠN CHIA TIỀN</span>
+                <h2 id="previewTitle" class="text-lg sm:text-xl font-black tracking-tight mt-0.5 truncate uppercase">CHIA TIỀN ĂN UỐNG</h2>
+                <p id="previewSubtitle" class="hidden">Chia bill</p>
+              </div>
+
+              <!-- HUY HIỆU TỔNG SỐ NGƯỜI TRÊN BILL CUỐI -->
+              <div class="bg-white text-purple-950 px-3 sm:px-3.5 py-1.5 rounded-2xl shadow-md text-center shrink-0 border-2 border-purple-200">
+                <span class="text-[8.5px] uppercase tracking-wider text-purple-600 font-black block leading-tight">TỔNG CỘNG</span>
+                <span id="previewTotalMembersBadge" class="text-base sm:text-lg font-black leading-tight block">1 NGƯỜI</span>
+              </div>
+            </div>
           </div>
 
           <!-- Card Content Body -->
-          <div class="p-5 space-y-3.5">
+          <div class="p-5 space-y-4">
             
-            <!-- Section 1: Expenses breakdown (Normal font, clean like image) -->
+            <!-- Section 1: Expenses breakdown -->
             <div class="space-y-1 text-[13px] text-slate-800 font-normal">
-              <div id="previewExpenseItems" class="space-y-1">
-                <!-- Dynamically filled: e.g. Tiền ăn trưa 450.000 -->
+              <div class="flex justify-between items-center text-slate-400 font-semibold pb-1 border-b border-slate-100 text-[11px]">
+                <span>Khoản chi</span>
+                <span>Số tiền</span>
+              </div>
+              <div id="previewExpenseItems" class="space-y-1 pt-0.5">
+                <!-- Dynamically filled -->
               </div>
               
               <!-- Total with payer tag -->
-              <div class="flex justify-between items-center pt-1 text-slate-800">
+              <div class="flex justify-between items-center pt-1.5 text-slate-900 font-bold border-t border-dashed border-slate-200">
                 <span id="previewPayerSummary">Tổng (Hương đã trả hết)</span>
-                <span id="previewTotalAmount">0</span>
+                <span id="previewTotalAmount" class="font-mono text-sm text-purple-700">0</span>
               </div>
             </div>
 
-            <!-- Calculation note -->
-            <div id="previewFormulaBox" class="text-[11px] text-slate-500 leading-snug pt-0.5">
-              <div id="previewFormulaText1">5 người tham gia (chưa có chi phí)</div>
-              <div id="previewFormulaText2" class="font-mono text-[10.5px] text-slate-600 mt-0.5">Tổng: 0 đ · Mỗi người: 0 đ</div>
+            <!-- KHỐI CÔNG THỨC: NHẤN MẠNH RÕ SỐ NGƯỜI & SỐ TIỀN MỖI NGƯỜI -->
+            <div id="previewFormulaBox" class="bg-purple-50/80 p-3 rounded-2xl border border-purple-200/80 text-[11px] text-slate-600 leading-snug">
+              <div id="previewFormulaText1" class="font-bold text-purple-950 text-xs">1 người tham gia</div>
+              <div id="previewFormulaText2" class="font-mono text-[10.5px] text-purple-800/90 mt-0.5">Tổng: 0 đ · Mỗi người: 0 đ</div>
             </div>
 
             <hr id="dividerTop" class="border-t my-1">
 
             <!-- Section 2: Members Breakdown List -->
-            <div class="space-y-0.5 text-[13px]" id="previewMembersTable">
-              <!-- Dynamically populated: Name ... Amount -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-800 mb-1">
+                <span id="previewTableTitle">📋 DANH SÁCH THỰC TRẢ (1 NGƯỜI):</span>
+                <span class="text-[10px] text-slate-400 font-normal">Đã tính phần ứng</span>
+              </div>
+              <div class="space-y-0.5 text-[13px]" id="previewMembersTable">
+                <!-- Dynamically populated: Name ... Amount -->
+              </div>
             </div>
 
             <hr id="dividerBottom" class="border-t my-1">
 
             <!-- Section 3: Payment instructions & QR code -->
             <div class="text-center pt-1 pb-1">
-              <h3 id="previewTransferTitle" class="text-xs font-bold uppercase tracking-wide mb-3" style="color: #6B21A8;">
+              <h3 id="previewTransferTitle" class="text-xs font-black uppercase tracking-wider mb-2.5" style="color: #6B21A8;">
                 Chuyển khoản cho Hương
               </h3>
 
               <!-- QR Code Container Box -->
-              <div id="qrCodeWrapper" class="inline-block p-3 bg-white rounded-xl shadow-xs border border-slate-200">
-                <div class="w-44 h-44 flex items-center justify-center overflow-hidden relative">
+              <div id="qrCodeWrapper" class="inline-block p-2.5 bg-white rounded-2xl shadow-sm border border-slate-200">
+                <div class="w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center overflow-hidden relative">
                   <!-- Image tag for VietQR -->
                   <img id="vietQrImg" src="" alt="VietQR Code" class="w-full h-full object-contain">
                   <!-- Fallback div if image loading fails or offline -->
@@ -370,7 +376,7 @@
               <!-- Bank Details Text -->
               <div class="mt-2.5 space-y-0.5 text-slate-800 text-xs">
                 <div id="previewBankName" class="font-bold text-slate-900">Ví MoMo</div>
-                <div id="previewAccountName" class="font-normal text-slate-700"></div>
+                <div id="previewAccountName" class="font-semibold text-slate-700 uppercase"></div>
                 <div id="previewAccountNoRow" class="tracking-wide mt-1">
                   STK: <span id="previewAccountNo" class="font-mono font-bold text-slate-900"></span>
                 </div>
@@ -384,17 +390,39 @@
           </div>
 
           <!-- Bottom subtle badge -->
-          <div class="bg-slate-100/80 py-1.5 text-center text-[10px] text-slate-400 font-medium border-t border-slate-200">
+          <div class="bg-slate-50 py-1.5 text-center text-[10.5px] text-slate-400 font-medium border-t border-slate-100">
             Hóa đơn tạo bởi ChiaBill Pro
           </div>
 
         </div>
+      </div>
 
+      <!-- Cụm nút xuất kết quả gắn liền bên dưới Hóa Đơn -->
+      <div class="grid grid-cols-2 gap-3 max-w-[420px] mx-auto">
+        <button id="btnCopyText" class="w-full py-3 bg-white hover:bg-slate-50 text-slate-800 font-bold rounded-xl text-xs border border-slate-300 shadow-xs transition flex items-center justify-center gap-1.5">
+          <span>📋</span> Copy chữ
+        </button>
+        <button id="btnDownloadImage" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-xl text-xs shadow-md shadow-purple-600/25 transition flex items-center justify-center gap-1.5">
+          <span>📸</span> Tải ảnh Bill (PNG)
+        </button>
       </div>
 
     </div>
 
   </main>
+
+  <!-- Mobile Sticky Floating Bar: Nhìn thấy ngay số tiền mỗi người và bấm xem Bill & QR -->
+  <div class="lg:hidden fixed bottom-3 inset-x-3 z-40 max-w-lg mx-auto pointer-events-none">
+    <div class="pointer-events-auto bg-slate-900/95 backdrop-blur text-white px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-2xl flex items-center justify-between border border-slate-700/60 gap-2">
+      <div class="min-w-0">
+        <span class="text-[9px] sm:text-[9.5px] text-purple-300 font-bold block uppercase tracking-wide">Mỗi người</span>
+        <span id="mobilePerPerson" class="text-xs sm:text-sm font-extrabold font-mono text-white truncate block">0 đ</span>
+      </div>
+      <button id="btnMobileScrollToBill" class="px-3 sm:px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md shadow-purple-500/25 shrink-0 transition">
+        <span>🧾</span> Xem Bill & QR <span id="mobileBtnCount">(1 người)</span> ➔
+      </button>
+    </div>
+  </div>
 
   <!-- Notification Toast -->
   <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
@@ -431,7 +459,7 @@
       violet: {
         headerBg: '#6B21A8', // Vibrant Purple
         accentText: '#6B21A8',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#F5EEFC',
         payerText: '#1E6B3E',
         divider: '#6B21A8'
@@ -439,7 +467,7 @@
       maroon: {
         headerBg: '#642634',
         accentText: '#642634',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#F5EFEB',
         payerText: '#1E6B3E',
         divider: '#642634'
@@ -447,7 +475,7 @@
       navy: {
         headerBg: '#1E3A8A',
         accentText: '#1E3A8A',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#EDF2F7',
         payerText: '#1E6B3E',
         divider: '#1E3A8A'
@@ -455,7 +483,7 @@
       emerald: {
         headerBg: '#064E3B',
         accentText: '#064E3B',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#EAF3EA',
         payerText: '#1E6B3E',
         divider: '#064E3B'
@@ -463,7 +491,7 @@
       slate: {
         headerBg: '#1E293B',
         accentText: '#1E293B',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#F1F5F9',
         payerText: '#1E6B3E',
         divider: '#1E293B'
@@ -471,7 +499,7 @@
       amber: {
         headerBg: '#B45309',
         accentText: '#B45309',
-        cardBg: '#FAF6F0',
+        cardBg: '#FFFFFF',
         rowAlt: '#FEF3C7',
         payerText: '#1E6B3E',
         divider: '#B45309'
@@ -555,14 +583,15 @@
       const container = document.getElementById('expenseList');
       container.innerHTML = '';
 
-      state.expenses.forEach((item) => {
+      state.expenses.forEach((item, index) => {
         const row = document.createElement('div');
         row.className = "flex items-center gap-1.5 sm:gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200/90";
         row.innerHTML = `
-          <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên món/khoản chi" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-2 sm:px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-purple-500 font-medium">
+          <span class="text-slate-400 text-xs px-1 font-mono shrink-0">${index + 1}</span>
+          <input type="text" data-id="${item.id}" data-field="name" value="${item.name}" placeholder="Tên món/khoản chi" class="flex-1 min-w-0 bg-white border border-slate-300 rounded-lg px-2 sm:px-2.5 py-1.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-purple-500">
           <div class="relative w-28 sm:w-36 shrink-0">
-            <input type="text" data-id="${item.id}" data-field="amount" value="${item.amount > 0 ? formatMoney(item.amount) : ''}" placeholder="0" class="w-full bg-white border border-slate-200 rounded-lg pl-2 pr-5 sm:pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
-            <span class="absolute right-1.5 sm:right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none">đ</span>
+            <input type="text" data-id="${item.id}" data-field="amount" value="${item.amount > 0 ? formatMoney(item.amount) : ''}" placeholder="0" class="w-full bg-white border border-slate-300 rounded-lg pl-2 pr-5 sm:pr-6 py-1.5 text-xs text-amber-700 font-mono text-right font-bold focus:outline-none focus:border-purple-500">
+            <span class="absolute right-1.5 sm:right-2 top-1.5 text-[10px] text-slate-400 pointer-events-none font-semibold">đ</span>
           </div>
           <button data-id="${item.id}" class="btnDeleteExpense text-slate-400 hover:text-rose-600 p-1 sm:p-1.5 rounded-lg hover:bg-rose-50 transition shrink-0" title="Xóa món">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -609,7 +638,10 @@
 
       state.members.forEach((m, index) => {
         const row = document.createElement('div');
-        row.className = "flex items-center gap-1.5 sm:gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200/90 text-xs";
+        const isPayer = m.name.trim().toLowerCase() === state.payerName.trim().toLowerCase();
+        row.className = `flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5 rounded-xl border text-xs ${
+          isPayer ? 'bg-purple-50/60 border-purple-200' : 'bg-white border-slate-200'
+        }`;
         
         let fixedAmountHtml = '';
         if (m.isFixed) {
@@ -621,23 +653,31 @@
           `;
         }
 
+        const payerBadge = isPayer 
+          ? `<span class="bg-purple-600 text-white text-[10px] sm:text-[11px] font-bold px-1.5 sm:px-2 py-1 rounded-md shrink-0 flex items-center gap-0.5 shadow-2xs"><span>👑</span><span class="hidden sm:inline"> Người ứng</span></span>`
+          : '';
+
         row.innerHTML = `
-          <span class="w-4 sm:w-5 text-center text-slate-400 font-mono text-[11px] font-semibold shrink-0">${index + 1}</span>
-          <input type="text" data-id="${m.id}" data-field="name" value="${m.name}" placeholder="Tên" class="flex-1 min-w-[70px] bg-white border border-slate-200 rounded-lg px-2 sm:px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-purple-500 shadow-2xs">
-          
-          <select data-id="${m.id}" data-field="mode" class="bg-white border border-slate-200 rounded-lg px-1.5 sm:px-2 py-1.5 text-[11px] text-slate-700 font-medium focus:outline-none shrink-0 shadow-2xs">
+          <span class="w-5 text-center text-xs font-mono font-bold shrink-0 ${isPayer ? 'text-purple-700' : 'text-slate-400'}">#${index + 1}</span>
+          <input type="text" data-id="${m.id}" data-field="name" value="${m.name}" placeholder="Tên" class="flex-1 min-w-0 bg-white border ${isPayer ? 'border-purple-300 font-bold text-purple-900' : 'border-slate-300 font-semibold text-slate-900'} rounded-lg px-2 sm:px-2.5 py-1.5 text-xs focus:outline-none focus:border-purple-500 shadow-2xs">
+          ${payerBadge}
+          <select data-id="${m.id}" data-field="mode" class="bg-white border border-slate-300 rounded-lg px-1.5 sm:px-2 py-1.5 text-[11px] text-slate-700 font-medium focus:outline-none shrink-0 shadow-2xs">
             <option value="even" ${!m.isFixed ? 'selected' : ''}>Chia đều</option>
             <option value="fixed" ${m.isFixed ? 'selected' : ''}>Cố định</option>
           </select>
-
           ${fixedAmountHtml}
-
-          <button data-id="${m.id}" class="btnDeleteMember text-slate-400 hover:text-rose-600 p-1 sm:p-1.5 rounded-lg hover:bg-rose-50 transition shrink-0" title="Xóa người">
+          <button data-id="${m.id}" class="btnDeleteMember text-slate-300 hover:text-rose-600 p-1 sm:p-1.5 rounded-lg hover:bg-rose-50 transition shrink-0" title="Xóa người">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           </button>
         `;
         container.appendChild(row);
       });
+
+      // Update prominent member count badge in Section 2 header
+      const countBadge = document.getElementById('labelMemberCount');
+      if (countBadge) {
+        countBadge.textContent = state.members.length;
+      }
 
       // Events
       container.querySelectorAll('input').forEach(input => {
@@ -820,11 +860,21 @@
       header.style.backgroundColor = theme.headerBg;
 
       document.getElementById('previewTitle').textContent = state.title || 'CHIA TIỀN';
-      document.getElementById('previewSubtitle').textContent = `Chia bill · ${calc.totalMembers} người`;
+      const previewSubtitle = document.getElementById('previewSubtitle');
+      if (previewSubtitle) {
+        previewSubtitle.textContent = `Hóa đơn chia tiền · ${calc.totalMembers} người`;
+      }
+      const previewBadge = document.getElementById('previewTotalMembersBadge');
+      if (previewBadge) {
+        previewBadge.textContent = `${calc.totalMembers} NGƯỜI`;
+      }
 
       // Top labels
       document.getElementById('labelTotalExpense').textContent = `${formatMoney(calc.totalExpense)} đ`;
-      document.getElementById('labelMemberCount').textContent = calc.totalMembers;
+      const labelMemberCount = document.getElementById('labelMemberCount');
+      if (labelMemberCount) {
+        labelMemberCount.textContent = calc.totalMembers;
+      }
 
       // Expenses preview (Regular font, clean like reference image)
       const expenseItemsContainer = document.getElementById('previewExpenseItems');
@@ -851,18 +901,34 @@
         formula1.textContent = `${calc.totalMembers} người tham gia (chưa có chi phí)`;
         formula2.textContent = `Tổng: 0 đ · Mỗi người: 0 đ`;
       } else if (calc.fixedMembers.length > 0) {
-        const fixedDescriptions = calc.fixedMembers.map(m => `${m.name} cố định ${formatMoney(m.fixedAmount)}`).join(', ');
-        formula1.textContent = `${fixedDescriptions} · ${calc.evenCount} người còn lại chia đều`;
-        formula2.textContent = `(${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)}) ÷ ${calc.evenCount} = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)}`;
+        const fixedDescriptions = calc.fixedMembers.map(m => `${m.name} cố định ${formatMoney(m.fixedAmount)} đ`).join(', ');
+        formula1.textContent = `📌 ${fixedDescriptions} · ${calc.evenCount} người còn lại chia đều:`;
+        formula2.textContent = `(${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)}) ÷ ${calc.evenCount} người = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)} đ/người`;
       } else {
-        formula1.textContent = `${calc.totalMembers} người chia đều:`;
-        formula2.textContent = `${formatMoney(calc.totalExpense)} ÷ ${calc.totalMembers} = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)}`;
+        formula1.textContent = `📌 Chia đều cho ${calc.totalMembers} người tham gia:`;
+        formula2.textContent = `${formatMoney(calc.totalExpense)} ÷ ${calc.totalMembers} người = ${formatMoney(calc.rawPerPerson)} ≈ ${formatMoney(calc.roundedPerPerson)} đ/người`;
       }
 
       // Dividers color matching theme
       const dividerColor = theme.divider || '#6B21A8';
       document.getElementById('dividerTop').style.borderColor = dividerColor;
       document.getElementById('dividerBottom').style.borderColor = dividerColor;
+
+      // Table Title update
+      const tableTitle = document.getElementById('previewTableTitle');
+      if (tableTitle) {
+        tableTitle.textContent = `📋 DANH SÁCH THỰC TRẢ (${calc.totalMembers} NGƯỜI):`;
+      }
+
+      // Mobile floating bar updates
+      const mobilePerPerson = document.getElementById('mobilePerPerson');
+      if (mobilePerPerson) {
+        mobilePerPerson.textContent = `${formatMoney(calc.roundedPerPerson)} đ`;
+      }
+      const mobileBtnCount = document.getElementById('mobileBtnCount');
+      if (mobileBtnCount) {
+        mobileBtnCount.textContent = `(${calc.totalMembers} người)`;
+      }
 
       // Members Table Preview (Alternating rows, clean flat style matching sample)
       const membersTable = document.getElementById('previewMembersTable');
@@ -1284,6 +1350,13 @@
 
       document.getElementById('btnDownloadImage').addEventListener('click', downloadReceiptImage);
       document.getElementById('btnCopyText').addEventListener('click', copyFormattedText);
+
+      const btnMobileScroll = document.getElementById('btnMobileScrollToBill');
+      if (btnMobileScroll) {
+        btnMobileScroll.addEventListener('click', () => {
+          document.getElementById('billSection')?.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
     }
 
     // Startup
