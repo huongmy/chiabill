@@ -1938,7 +1938,9 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       if (cleanAcc) {
         text += `• STK: ${cleanAcc}\n`;
       }
-      text += `• Chủ TK: ${state.accountName}\n`;
+      if (state.accountName && state.accountName.trim()) {
+        text += `• Chủ TK: ${state.accountName.trim()}\n`;
+      }
       if (cleanMemo) {
         text += `• Nội dung: ${cleanMemo}\n`;
       }
@@ -2111,7 +2113,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
           renderExpensesForm();
           renderMembersForm();
           updateAll();
-          showToast(`Đã xóa trắng! Tài khoản mặc định: ${state.accountName}`, '🧹');
+          showToast(state.accountName ? `Đã xóa trắng! Tài khoản mặc định: ${state.accountName}` : 'Đã xóa trắng!', '🧹');
         }
       });
 
