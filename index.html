@@ -503,13 +503,13 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
   <!-- ==================== SECTION 2: SỔ QUỸ CHI TIÊU ĐỊNH KỲ ==================== -->
   <div id="sectionLedger" class="hidden">
-    <main class="max-w-md sm:max-w-xl mx-auto px-3 sm:px-4 pt-2 pb-28 sm:pt-4 space-y-3 min-w-0 min-h-[calc(100vh-120px)]">
+    <main class="max-w-md sm:max-w-xl lg:max-w-5xl xl:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-28 lg:pb-12 sm:pt-4 space-y-4 min-w-0 min-h-[calc(100vh-120px)]">
 
       <!-- TOP BAR: Title & More Menu & Metadata (Mockup 2, 3, 4, 5, 6) -->
       <div class="space-y-1">
         <div class="flex items-center justify-between relative">
           <div class="flex items-center gap-1.5 min-w-0">
-            <h2 class="text-base sm:text-lg font-bold text-slate-900 truncate">
+            <h2 class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 truncate">
               <span id="txtLedgerTitleDisplay">Sổ chi tiêu nhóm</span>
             </h2>
             <button type="button" onclick="promptEditLedgerTitle()" class="text-slate-300 hover:text-slate-500 p-1.5 rounded transition cursor-pointer" title="Đổi tên sổ" aria-label="Đổi tên sổ">
@@ -560,19 +560,31 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         </div>
       </div>
 
-      <!-- HERO CARD: TỔNG CHI (Mockup 2) -->
-      <div class="bg-[#f3f0ff] border border-indigo-100/90 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-1">
-        <div class="text-xs text-indigo-900/70 font-semibold">Tổng chi</div>
-        <div class="flex items-baseline gap-1">
-          <span id="heroTotalMoney" class="text-3xl sm:text-4xl font-extrabold text-[#4338ca] tracking-tight">1.620.000</span>
-          <span class="text-2xl sm:text-3xl font-extrabold text-[#4338ca] underline underline-offset-4 decoration-2">đ</span>
+      <!-- HERO CARD: TỔNG CHI (Mockup 2) & Desktop Quick Actions -->
+      <div class="bg-[#f3f0ff] border border-indigo-100/90 rounded-2xl p-4 sm:p-5 lg:p-6 shadow-2xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="space-y-1">
+          <div class="text-xs text-indigo-900/70 font-semibold">Tổng chi</div>
+          <div class="flex items-baseline gap-1">
+            <span id="heroTotalMoney" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#4338ca] tracking-tight">1.620.000</span>
+            <span class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#4338ca] underline underline-offset-4 decoration-2">đ</span>
+          </div>
+          <div class="text-xs sm:text-sm text-indigo-900/80 flex items-center gap-2 pt-0.5 font-medium">
+            <span id="heroPerPersonMoney">Mỗi người ~324.000 đ</span>
+            <span>·</span>
+            <span id="heroExpenseCount">3 khoản chi</span>
+          </div>
+          <div id="heroFundLine" class="hidden text-xs font-semibold text-indigo-900/80"></div>
         </div>
-        <div class="text-xs text-indigo-900/80 flex items-center gap-1.5 pt-0.5 font-medium">
-          <span id="heroPerPersonMoney">Mỗi người ~324.000 đ</span>
-          <span>·</span>
-          <span id="heroExpenseCount">3 khoản chi</span>
+
+        <!-- Desktop Quick Action Buttons (Replaces floating bottom bar on large screens) -->
+        <div class="hidden lg:flex items-center gap-3 shrink-0">
+          <button type="button" onclick="document.getElementById('btnOpenAddExpenseModal').click()" class="py-2.5 px-4 bg-[#5046e5] hover:bg-[#4338ca] active:scale-[0.98] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-sm shadow-indigo-500/25 transition cursor-pointer">
+            <span class="text-base font-extrabold leading-none">+</span> <span>Ghi khoản chi</span>
+          </button>
+          <button type="button" onclick="openSettlementImage()" class="py-2.5 px-4 bg-white hover:bg-slate-50 active:scale-[0.98] text-slate-800 font-bold text-xs sm:text-sm rounded-xl border border-slate-300 shadow-2xs flex items-center gap-2 transition cursor-pointer">
+            <span>📸</span> <span>Gửi ảnh QR</span>
+          </button>
         </div>
-        <div id="heroFundLine" class="hidden text-xs font-semibold text-indigo-900/80"></div>
       </div>
 
       <!-- SEGMENTED 3-TAB CONTROL (Mockup 2, 3, 4) -->
@@ -605,7 +617,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         </div>
 
         <!-- Dynamic Recipient Cards -->
-        <div id="settlementCardsContainer" class="space-y-3">
+        <div id="settlementCardsContainer" class="space-y-3 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4">
           <!-- Injected dynamically by renderSettlementTab() -->
         </div>
       </div>
@@ -644,7 +656,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         </div>
 
         <!-- Sub-view 1: Dạng Thẻ (Mockup 5) -->
-        <div id="expensesCardsView" class="space-y-2">
+        <div id="expensesCardsView" class="space-y-2 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-3">
           <!-- Injected dynamically by renderExpensesCards() -->
         </div>
 
@@ -675,15 +687,15 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <p class="text-xs text-slate-400 -mt-1">Số dư = đã ứng trừ cần chi. Xanh là được nhận, đỏ là cần trả.</p>
 
         <!-- Danh sách số dư: một khối, các dòng ngăn cách bằng đường kẻ -->
-        <div id="membersBalanceList" class="space-y-2.5">
+        <div id="membersBalanceList" class="space-y-2.5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-3">
           <!-- Injected dynamically by renderMembersTab() -->
         </div>
       </div>
 
     </main>
 
-    <!-- THANH NÚT DƯỚI CÙNG: nền đặc + đường viền trên, không nổi che nội dung phía sau -->
-    <div id="mobileLedgerDock" class="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200" style="padding-bottom: env(safe-area-inset-bottom);">
+    <!-- THANH NÚT DƯỚI CÙNG (CHỈ DÀNH CHO MOBILE - ẨN TRÊN DESKTOP lg:) -->
+    <div id="mobileLedgerDock" class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200" style="padding-bottom: env(safe-area-inset-bottom);">
       <div class="max-w-md sm:max-w-xl mx-auto px-3 py-2.5 flex items-center gap-2.5">
         <button id="btnDockAddExpense" type="button" onclick="document.getElementById('btnOpenAddExpenseModal').click()" class="flex-1 py-3 px-4 bg-[#5046e5] hover:bg-[#4338ca] active:scale-[0.98] text-white font-bold text-sm rounded-2xl flex items-center justify-center gap-2 transition cursor-pointer">
           <span class="text-base font-extrabold leading-none">+</span> <span>Ghi khoản chi</span>
@@ -2823,7 +2835,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       const s = getFundSummary(calc);
       const refundOn = Boolean(ledgerState.fundRefund);
       const card = document.createElement('div');
-      card.className = "rounded-2xl border border-indigo-100 bg-[#f3f0ff]/70 p-3.5 space-y-2.5";
+      card.className = "rounded-2xl border border-indigo-100 bg-[#f3f0ff]/70 p-3.5 space-y-2.5 lg:col-span-2";
 
       const inDetail = s.sponsored > 0
         ? ` <span class="text-indigo-900/60">(thành viên nộp ${formatMoney(s.received - s.sponsored)} + tài trợ ${formatMoney(s.sponsored)})</span>`
@@ -2938,7 +2950,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
       if (calc.transfers.length === 0 && paymentRows.length === 0) {
         container.innerHTML = `
-          <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-1">
+          <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-1 lg:col-span-2">
             <div class="text-sm font-bold text-emerald-900">Chi tiêu đã cân bằng hoàn hảo!</div>
             <p class="text-xs text-emerald-700">${calc.fundActive ? 'Không ai cần nộp thêm vào quỹ.' : 'Mọi người đã chia đều tiền, không ai nợ ai.'}</p>
           </div>
@@ -3079,7 +3091,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       // Mọi khoản nợ đã được bù trừ xong
       if (calc.transfers.length === 0) {
         const doneEl = document.createElement('div');
-        doneEl.className = "p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-0.5";
+        doneEl.className = "p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-0.5 lg:col-span-2";
         doneEl.innerHTML = `
           <div class="text-sm font-bold text-emerald-900">Cả nhóm đã tất toán!</div>
           <p class="text-xs text-emerald-700">${calc.fundActive ? 'Không còn ai cần nộp thêm vào quỹ.' : 'Không còn ai nợ ai.'} Bạn có thể đóng kỳ ở menu ⋯ để sang kỳ mới.</p>
