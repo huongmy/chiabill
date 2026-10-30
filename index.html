@@ -215,8 +215,9 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
   <!-- Top Navigation Bar & Unified Mode Switcher -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-40 shadow-2xs w-full max-w-full">
-    <div class="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
-      
+    <!-- Từ sm: lưới 3 cột, hai bên bằng nhau để nút 1 Bữa / Sổ Quỹ luôn ở giữa, không xê dịch khi phụ đề đổi độ dài -->
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0 sm:grid sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+
       <!-- Brand & Mode Title -->
       <div class="flex items-center gap-2 sm:gap-3 min-w-0">
         <div id="headerBrandIcon" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-purple-800 flex items-center justify-center text-white font-extrabold text-base sm:text-xl shadow-md shadow-purple-500/25 shrink-0">
@@ -242,7 +243,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       </div>
 
       <!-- Header Right Actions -->
-      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0 sm:justify-self-end">
         <!-- Chọn màu chủ đạo: đổi màu toàn bộ giao diện và hóa đơn -->
         <div class="relative">
           <button id="btnThemePicker" type="button" title="Màu chủ đạo" aria-label="Màu chủ đạo" aria-haspopup="true" aria-expanded="false" class="h-10 sm:h-auto px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition flex items-center gap-1.5 shadow-2xs">
