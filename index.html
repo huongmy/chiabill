@@ -1208,8 +1208,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <!-- Header -->
       <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-3">
         <div class="min-w-0">
-          <h3 class="text-base sm:text-lg font-bold text-slate-900">Ảnh chốt nợ</h3>
-          <p class="text-[11px] text-slate-500">Mỗi người nhận một mã QR, người chuyển tự nhập số tiền của mình</p>
+          <h3 id="shareImageTitle" class="text-base sm:text-lg font-bold text-slate-900 truncate">Ảnh chốt nợ</h3>
+          <p id="shareImageSubtitle" class="text-[11px] text-slate-500">Mỗi người nhận một mã QR, người chuyển tự nhập số tiền của mình</p>
         </div>
         <button type="button" onclick="closeSettlementImage()" aria-label="Đóng" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg text-lg leading-none transition cursor-pointer shrink-0"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
@@ -1235,7 +1235,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
           <button id="btnShareSettlementImage" type="button" onclick="shareSettlementImage()" class="hidden flex-1 py-3 bg-[#5046e5] hover:bg-[#4338ca] active:scale-[0.98] text-white rounded-2xl text-sm font-bold transition cursor-pointer">Chia sẻ ảnh</button>
           <button id="btnDownloadSettlementImage" type="button" onclick="downloadSettlementImage()" class="flex-1 py-3 bg-[#5046e5] hover:bg-[#4338ca] active:scale-[0.98] text-white rounded-2xl text-sm font-bold transition cursor-pointer">Tải ảnh</button>
         </div>
-        <button type="button" onclick="copySettlementSummary()" class="w-full py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700 transition cursor-pointer">Hoặc sao chép dạng chữ</button>
+        <button id="btnShareImageCopyText" type="button" onclick="copySettlementSummary()" class="w-full py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700 transition cursor-pointer">Hoặc sao chép dạng chữ</button>
       </div>
     </div>
   </div>
@@ -1245,7 +1245,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     <span id="toastIcon">✅</span>
     <span id="toastMessage">Đã thực hiện thành công!</span>
   </div>
-  <div id="appToast" class="fixed top-3 left-1/2 -translate-x-1/2 z-[9999] transition-all duration-300 transform -translate-y-4 opacity-0 pointer-events-none w-max max-w-[calc(100vw-1.5rem)]">
+  <!-- Hiện ngay dưới header (cao h-14 / sm:h-16) để không che nút 1 Bữa / Sổ Quỹ -->
+  <div id="appToast" class="fixed top-[4.25rem] sm:top-[4.75rem] left-1/2 -translate-x-1/2 z-[9999] transition-all duration-300 transform -translate-y-4 opacity-0 pointer-events-none w-max max-w-[calc(100vw-1.5rem)]">
     <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-slate-700">
       <span id="appToastIcon" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
       <span id="appToastMessage">Thao tác thành công!</span>
@@ -1934,11 +1935,17 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
             </div>
           `;
         } else {
-          row.className = "flex justify-between items-center py-1.5 px-2.5 transition-colors";
+          // Nút ảnh riêng của người này: không lọt vào ảnh bill chung (data-html2canvas-ignore)
+          row.className = "flex justify-between items-center gap-2 py-1.5 px-2.5 transition-colors";
           row.style.backgroundColor = rowBg;
           row.innerHTML = `
-            <span class="text-slate-800 text-[13px] font-normal">${m.name}</span>
-            <span class="font-bold text-slate-900 text-[13px] tracking-tight">${formatMoney(m.share)}</span>
+            <span class="text-slate-800 text-[13px] font-normal min-w-0 break-words">${escapeAttr(m.name)}</span>
+            <span class="flex items-center gap-1.5 shrink-0">
+              <span class="font-bold text-slate-900 text-[13px] tracking-tight">${formatMoney(m.share)}</span>
+              <button type="button" data-html2canvas-ignore="true" data-name="${escapeAttr(m.name)}" onclick="openPersonImage('single', this.dataset.name)" title="Ảnh riêng của ${escapeAttr(m.name)} (kèm QR đúng số tiền)" aria-label="Ảnh riêng của ${escapeAttr(m.name)}" class="w-7 h-7 -my-1 rounded-lg text-slate-400 hover:text-purple-700 hover:bg-white flex items-center justify-center transition cursor-pointer">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>
+              </button>
+            </span>
           `;
         }
         membersTable.appendChild(row);
@@ -2105,8 +2112,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
         const image = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        const cleanTitle = (state.title || 'bill').toLowerCase().replace(/[^a-z0-9]/gi, '_');
-        link.download = `bill_${cleanTitle}_${Date.now()}.png`;
+        // Tên file tiếng Anh không dấu (tiêu đề có dấu làm tên file bị mất chữ)
+        link.download = `split-bill-${getLocalDateString()}.png`;
         link.href = image;
         link.click();
 
@@ -3258,9 +3265,11 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       }
 
       // Render Recipient Cards (Mockup 2 & Mockup 6)
+      // Màn rộng chia 2 cột; chỉ có một người nhận thì thẻ trải hết chiều ngang, không lệch sang trái
+      const recipientCount = Object.keys(recipientGroups).length;
       Object.values(recipientGroups).forEach((group) => {
         const card = document.createElement('div');
-        card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-3.5 space-y-2.5";
+        card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-3.5 space-y-2.5" + (recipientCount === 1 ? " lg:col-span-2" : "");
 
         const initialLetter = group.recipient.charAt(0).toUpperCase();
         const unpaidItems = group.items.filter(item => !item.isPaid);
@@ -3857,6 +3866,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
               <div class="font-mono font-bold text-sm ${amountClass}">${amountText}</div>
               <div class="text-xs font-semibold ${labelClass}">${labelText}</div>
             </div>
+            <button type="button" data-name="${escapeAttr(m)}" onclick="openPersonImage('ledger', this.dataset.name)" title="Ảnh riêng của ${escapeAttr(m)} (kèm QR đúng số tiền)" class="shrink-0 px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-[11px] font-semibold text-slate-600 hover:text-indigo-700 hover:border-indigo-200 transition cursor-pointer">Ảnh</button>
           </div>
           <div class="relative h-1.5 bg-slate-100 rounded-full overflow-hidden mt-2.5" aria-hidden="true">
             <div class="absolute left-1/2 top-0 bottom-0 w-px bg-slate-300"></div>
@@ -4114,6 +4124,11 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       return `${n > 0 ? '+' : n < 0 ? '-' : ''}${formatMoney(Math.abs(n))} đ`;
     }
 
+    // Số tiền chuyển làm tròn đến nghìn đồng cho dễ nhập (số dưới 1.000 đ giữ nguyên). Sổ vẫn ghi số chính xác.
+    function roundTransferAmount(amount) {
+      return amount < 1000 ? amount : Math.round(amount / 1000) * 1000;
+    }
+
     // Phần "chuyển khoản": mỗi người nhận một thẻ gồm mã QR căn giữa + thông tin STK + danh sách ai chuyển bao nhiêu (chuẩn giao diện hóa đơn tím)
     function buildBillTransfersHtml(calc, qrDataUrlsMap = {}) {
       const groups = [];
@@ -4123,8 +4138,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
           byRecipient[t.to] = { to: t.to, total: 0, items: [] };
           groups.push(byRecipient[t.to]);
         }
-        // Số tiền chuyển làm tròn đến nghìn đồng cho dễ nhập (số dưới 1.000 đ giữ nguyên). Sổ vẫn ghi số chính xác.
-        const rounded = t.amount < 1000 ? t.amount : Math.round(t.amount / 1000) * 1000;
+        const rounded = roundTransferAmount(t.amount);
         byRecipient[t.to].total += rounded;
         byRecipient[t.to].items.push({ ...t, amount: rounded });
       });
@@ -4521,8 +4535,49 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     let settlementImageUrl = '';
     let settlementImageBusy = false;
 
+    // Ảnh đang mở trong popup: { title, subtitle, fileName(), shareTitle, showCopy, build() trả về khối HTML để chụp }
+    let shareImageJob = null;
+
     function settlementImageFileName() {
-      return `${settlementImageMode === 'detail' ? 'hoa-don-chi-tiet' : 'chot-no'}-${getLocalDateString()}.png`;
+      return shareImageJob.fileName();
+    }
+
+    // Ảnh chốt nợ cả nhóm: tải trước ảnh VietQR chuẩn Napas 24/7 (hoặc mã QR nội bộ) cho từng người nhận
+    const settlementImageJob = {
+      title: 'Ảnh chốt nợ',
+      subtitle: 'Mỗi người nhận một mã QR, người chuyển tự nhập số tiền của mình',
+      showCopy: true,
+      fileName: () => `${settlementImageMode === 'detail' ? 'settlement-detail' : 'settlement'}-${getLocalDateString()}.png`,
+      shareTitle: () => ledgerState.title || 'Chốt nợ',
+      build: async () => {
+        const calc = calculateLedger();
+        const memo = toAsciiMemo(`Chot no ${ledgerState.title || ''}`);
+        const recipients = Array.from(new Set((calc.transfers || []).map(t => t.to))).filter(Boolean);
+        const qrDataUrlsMap = {};
+        await Promise.all(recipients.map(async recipient => {
+          const bank = memberBanks[recipient];
+          if (bank && bank.accountNo) {
+            try {
+              const qrUrl = await getRecipientVietQrUrl(bank, memo, 0);
+              if (qrUrl) qrDataUrlsMap[recipient] = qrUrl;
+            } catch (err) {
+              console.warn('Failed to prefetch VietQR for', recipient, err);
+            }
+          }
+        }));
+        return buildSettlementBillElement(calc, settlementImageMode, qrDataUrlsMap);
+      }
+    };
+
+    // Mở popup ảnh với nội dung của shareImageJob
+    function openShareImageModal() {
+      const modal = document.getElementById('modalSettlementImage');
+      if (!modal) return;
+      document.getElementById('shareImageTitle').textContent = shareImageJob.title;
+      document.getElementById('shareImageSubtitle').textContent = shareImageJob.subtitle;
+      document.getElementById('btnShareImageCopyText').classList.toggle('hidden', !shareImageJob.showCopy);
+      modal.classList.remove('hidden');
+      renderSettlementImage();
     }
 
     function updateSettlementModeButtons() {
@@ -4536,8 +4591,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
     // Vẽ lại ảnh theo kiểu đang chọn và hiện trong khung xem trước
     async function renderSettlementImage() {
-      if (settlementImageBusy) return;
-      const calc = calculateLedger();
+      if (settlementImageBusy || !shareImageJob) return;
       const status = document.getElementById('settlementImageStatus');
       const preview = document.getElementById('settlementImagePreview');
       const btnShare = document.getElementById('btnShareSettlementImage');
@@ -4559,23 +4613,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
           throw new Error('Thiếu thư viện tạo ảnh / mã QR (kiểm tra kết nối mạng rồi tải lại trang).');
         }
 
-        // Tải trước ảnh VietQR chuẩn Napas 24/7 (hoặc mã QR nội bộ) cho từng người nhận
-        const memo = toAsciiMemo(`Chot no ${ledgerState.title || ''}`);
-        const recipients = Array.from(new Set((calc.transfers || []).map(t => t.to))).filter(Boolean);
-        const qrDataUrlsMap = {};
-        await Promise.all(recipients.map(async recipient => {
-          const bank = memberBanks[recipient];
-          if (bank && bank.accountNo) {
-            try {
-              const qrUrl = await getRecipientVietQrUrl(bank, memo, 0);
-              if (qrUrl) qrDataUrlsMap[recipient] = qrUrl;
-            } catch (err) {
-              console.warn('Failed to prefetch VietQR for', recipient, err);
-            }
-          }
-        }));
-
-        bill = buildSettlementBillElement(calc, settlementImageMode, qrDataUrlsMap);
+        bill = await shareImageJob.build();
         document.body.appendChild(bill);
         await waitForImages(bill);
         await new Promise(resolve => setTimeout(resolve, 120)); // chờ Tailwind áp xong kiểu
@@ -4626,11 +4664,9 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         showToast('Sổ đang trống, chưa có gì để tạo ảnh.', '⚠️');
         return;
       }
-      const modal = document.getElementById('modalSettlementImage');
-      if (!modal) return;
-      modal.classList.remove('hidden');
+      shareImageJob = settlementImageJob;
       updateSettlementModeButtons();
-      renderSettlementImage();
+      openShareImageModal();
     };
 
     // Đổi kiểu ảnh: Gọn (chỉ chốt nợ + QR) hoặc Chi tiết (thêm các khoản chi và từng người)
@@ -4662,13 +4698,203 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       if (!settlementImageBlob) return;
       const file = new File([settlementImageBlob], settlementImageFileName(), { type: 'image/png' });
       try {
-        await navigator.share({ files: [file], title: ledgerState.title || 'Chốt nợ' });
+        await navigator.share({ files: [file], title: shareImageJob.shareTitle() });
       } catch (err) {
         // Người dùng tự đóng hộp chia sẻ thì không báo lỗi
         if (err && err.name !== 'AbortError') {
           showToast('Không chia sẻ được, hãy bấm Tải ảnh.', '⚠️');
         }
       }
+    };
+
+    // ==================== ẢNH RIÊNG MỘT NGƯỜI (1 Bữa và Sổ Quỹ) ====================
+    // Chỉ gồm phần của người đó và mã QR kèm đúng số tiền cần chuyển, để gửi riêng cho từng người.
+
+    // Khung ảnh: banner màu, thân, chân trang (cùng kiểu với ảnh chốt nợ)
+    function personBillShell(color, kicker, title, sub, bodyHtml) {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:420px;background:#ffffff;box-sizing:border-box;border-radius:24px;overflow:hidden;border:1px solid #e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-variant-numeric:tabular-nums;';
+      wrap.innerHTML = `
+        <div style="background:#ffffff;color:#0f172a;overflow:hidden;">
+          <div style="background-color:${color};padding:16px 20px;color:#ffffff;box-sizing:border-box;">
+            <span style="font-size:10px;line-height:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.75);display:block;">${escapeAttr(kicker)}</span>
+            <h2 style="font-size:18px;font-weight:900;letter-spacing:-0.02em;margin:3px 0 0;line-height:22px;color:#ffffff;text-transform:uppercase;word-break:break-word;">${escapeAttr(title)}</h2>
+            ${sub ? `<div style="font-size:11px;line-height:14px;color:rgba(255,255,255,0.8);margin-top:3px;">${escapeAttr(sub)}</div>` : ''}
+          </div>
+          <div style="padding:18px 20px 14px;box-sizing:border-box;">${bodyHtml}</div>
+          <div style="background:#f8fafc;padding:8px 0;text-align:center;font-size:10.5px;color:#94a3b8;font-weight:600;border-top:1px solid #f1f5f9;">
+            Hóa đơn tạo bởi ChiaBill Pro
+          </div>
+        </div>`;
+      return wrap;
+    }
+
+    // Bảng các dòng [tên, phụ chú, số tiền] kèm dòng tổng
+    function personRowsHtml(rows, totalLabel, total, color) {
+      return `
+        <table style="width:100%;border-collapse:collapse;"><tbody>
+          ${rows.map(r => `
+            <tr>
+              <td style="padding:7px 0;border-top:1px solid #f1f5f9;vertical-align:top;">
+                <div style="font-size:13.5px;font-weight:700;color:#0f172a;line-height:19px;word-break:break-word;">${escapeAttr(r.name)}</div>
+                ${r.sub ? `<div style="font-size:11px;color:#64748b;line-height:15px;margin-top:1px;">${escapeAttr(r.sub)}</div>` : ''}
+              </td>
+              <td style="padding:7px 0 7px 12px;border-top:1px solid #f1f5f9;vertical-align:top;text-align:right;white-space:nowrap;font-size:13.5px;font-weight:800;color:#0f172a;line-height:19px;">${formatMoney(r.amount)} đ</td>
+            </tr>`).join('')}
+          <tr>
+            <td style="padding:9px 0 2px;border-top:2px solid #e2e8f0;font-size:13.5px;font-weight:800;color:#0f172a;">${escapeAttr(totalLabel)}</td>
+            <td style="padding:9px 0 2px;border-top:2px solid #e2e8f0;text-align:right;font-size:15px;font-weight:900;color:${color};white-space:nowrap;">${formatMoney(total)} đ</td>
+          </tr>
+        </tbody></table>`;
+    }
+
+    // Thẻ chuyển khoản: số tiền nổi bật + mã QR kèm số tiền + thông tin STK
+    function personPayCardHtml(color, heading, amount, qrSrc, bankLine, accountName, accountNo, memo, missingText) {
+      const qrHtml = qrSrc
+        ? `<div style="display:inline-block;padding:8px;border:1px solid #e2e8f0;border-radius:16px;">
+             <img src="${qrSrc}" alt="VietQR" style="width:170px;height:auto;max-height:210px;display:block;margin:0 auto;">
+           </div>
+           <div style="font-size:10.5px;color:#64748b;margin-top:6px;font-weight:600;">Quét mã là có sẵn số tiền, chỉ cần xác nhận</div>`
+        : `<div style="font-size:11.5px;color:#94a3b8;padding:10px 0;">${escapeAttr(missingText)}</div>`;
+      return `
+        <div style="border:1px solid #e2e8f0;border-radius:20px;margin-top:14px;overflow:hidden;background:#ffffff;">
+          <div style="padding:14px 14px 12px;text-align:center;background:#f8fafc;">
+            <div style="font-size:11.5px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:${color};">${escapeAttr(heading)}</div>
+            <div style="font-size:26px;font-weight:900;color:${color};margin:4px 0 10px;line-height:30px;">${formatMoney(amount)} đ</div>
+            ${qrHtml}
+            ${accountNo ? `
+              <div style="font-size:12px;font-weight:700;color:#0f172a;margin-top:8px;">${escapeAttr(bankLine)}</div>
+              ${accountName ? `<div style="font-size:11px;font-weight:600;color:#475569;margin-top:1px;text-transform:uppercase;">${escapeAttr(accountName)}</div>` : ''}
+              <div style="font-size:12px;font-family:monospace;font-weight:700;color:#0f172a;margin-top:3px;">STK: ${escapeAttr(accountNo)}</div>
+              ${memo ? `<div style="font-size:11px;font-family:monospace;font-style:italic;color:#64748b;margin-top:2px;">Nội dung: ${escapeAttr(memo)}</div>` : ''}` : ''}
+          </div>
+        </div>`;
+    }
+
+    // Tên file ảnh: bill-for-<tên không dấu>-<ngày>.png
+    function personImageFileName(name) {
+      const slug = toAsciiMemo(name).toLowerCase().replace(/\s+/g, '-') || 'member';
+      return `bill-for-${slug}-${getLocalDateString()}.png`;
+    }
+
+    // 1 Bữa: các món, cách tính phần của người này, QR chuyển cho người ứng kèm đúng số tiền
+    async function buildSinglePersonBill(name) {
+      const calc = calculateBill();
+      const m = calc.memberShares.find(x => x.name === name);
+      if (!m) throw new Error('Không tìm thấy người này trong danh sách.');
+      const theme = themes[state.theme] || themes.violet;
+      const color = theme.headerBg;
+      const amount = Math.round(m.share || 0);
+
+      const howText = m.isFixed
+        ? `${name} trả phần cố định ${formatMoney(amount)} đ`
+        : (calc.fixedMembers.length > 0
+          ? `(${formatMoney(calc.totalExpense)} - ${formatMoney(calc.totalFixedAmount)} cố định) ÷ ${calc.evenCount} người ≈ ${formatMoney(amount)} đ`
+          : `${formatMoney(calc.totalExpense)} ÷ ${calc.totalMembers} người ≈ ${formatMoney(amount)} đ`);
+
+      const rows = state.expenses.filter(e => (e.amount || 0) > 0).map(e => ({ name: e.name || 'Khoản chi', amount: e.amount }));
+      const accountNo = (state.accountNo || '').replace(/\s+/g, '');
+      const accountName = toAsciiAccountName(state.accountName);
+      const memo = toAsciiMemo(`${name} ${state.memo || ''}`);
+      const bankOption = document.querySelector(`#bankSelect option[value="${state.bank}"]`);
+      const bankLine = bankOption ? bankOption.textContent.split('(')[0].trim() : state.bank;
+      const qrSrc = accountNo && amount > 0
+        ? await getRecipientVietQrUrl({ bankBin: singleBankBin(), accountNo, accountName }, memo, amount)
+        : '';
+
+      const body = `
+        ${personRowsHtml(rows, `Tổng (${state.payerName} đã trả hết)`, calc.totalExpense, color)}
+        <div style="background:#f8fafc;padding:10px 12px;border-radius:14px;border:1px solid #e2e8f0;margin-top:12px;">
+          <div style="font-size:12px;font-weight:800;color:#0f172a;">📌 Phần của ${escapeAttr(name)}</div>
+          <div style="font-size:11.5px;color:#475569;margin-top:3px;">${escapeAttr(howText)}</div>
+        </div>
+        ${personPayCardHtml(color, `Chuyển khoản cho ${state.payerName}`, amount, qrSrc, bankLine, accountName, accountNo, memo,
+          accountNo ? 'Không tạo được mã QR' : `Hỏi ${state.payerName} số tài khoản để chuyển`)}`;
+
+      return personBillShell(color, `Hóa đơn của ${name}`, state.title || 'Chia tiền', `${calc.totalMembers} người tham gia · Tổng ${formatMoney(calc.totalExpense)} đ`, body);
+    }
+
+    // Sổ Quỹ: các khoản người này tham gia, số dư, rồi từng khoản cần chuyển (QR kèm số tiền) hoặc sẽ được nhận
+    async function buildLedgerPersonBill(name) {
+      const calc = calculateLedger();
+      const color = '#6b21a8';
+      const stat = calc.memberStats[name] || {};
+      const items = calc.expenseBreakdowns.filter(e => !e.isPayment && !e.isCarryOver && (e.rowShares[name] || 0) > 0);
+      const rows = items.map(e => {
+        const wk = e.weekdayInfo && e.weekdayInfo.shortName ? `${e.weekdayInfo.shortName} ` : '';
+        const fixed = (e.fixedPeople || []).includes(name) ? ' · cố định' : '';
+        return { name: e.name, sub: `${wk}${formatDateDisplay(e.date)} · ${e.payer === FUND_NAME ? 'Quỹ' : e.payer} trả ${formatMoney(e.amount)} đ${fixed}`, amount: Math.round(e.rowShares[name]) };
+      });
+      const myTotal = rows.reduce((s, r) => s + r.amount, 0);
+
+      const bal = Math.round(stat.netBalance || 0);
+      const formula = fundFormulaText(stat);
+      const balColor = Math.abs(bal) < 1 ? '#64748b' : bal > 0 ? '#047857' : '#dc2626';
+      const balLabel = Math.abs(bal) < 1 ? 'Cân bằng'
+        : bal > 0 ? (calc.fundActive ? 'Quỹ trả lại' : 'Được nhận')
+        : (calc.fundActive ? 'Cần nộp quỹ' : 'Cần trả');
+
+      const memo = toAsciiMemo(`${name} chot no ${ledgerState.title || ''}`);
+      const outs = calc.transfers.filter(t => t.from === name);
+      const ins = calc.transfers.filter(t => t.to === name);
+      const cards = await Promise.all(outs.map(async t => {
+        const amount = roundTransferAmount(t.amount);
+        const bank = memberBanks[t.to] || {};
+        const qrSrc = bank.accountNo ? await getRecipientVietQrUrl(bank, memo, amount) : '';
+        const to = t.to === FUND_NAME ? 'thủ quỹ' : t.to;
+        return personPayCardHtml(color, `Chuyển khoản cho ${to}`, amount, qrSrc, memberBankLabel(bank), bank.accountName || '', bank.accountNo || '', memo,
+          `Chưa có STK của ${to}`);
+      }));
+
+      // Không phải chuyển: ghi ai sẽ chuyển cho mình, hoặc quỹ đang giữ hộ
+      const held = calc.fundHeld.find(h => h.name === name);
+      let receiveHtml = '';
+      if (outs.length === 0) {
+        const lines = ins.map(t => `${t.from === FUND_NAME ? 'Quỹ chung' : t.from} sẽ chuyển cho bạn ${formatMoney(roundTransferAmount(t.amount))} đ`);
+        if (held && !ins.some(t => t.from === FUND_NAME)) lines.push(`Quỹ đang giữ hộ ${formatMoney(held.amount)} đ`);
+        receiveHtml = `
+          <div style="margin-top:14px;padding:14px;border-radius:16px;background:${bal > 0 ? '#ecfdf5' : '#f8fafc'};border:1px solid ${bal > 0 ? '#a7f3d0' : '#e2e8f0'};text-align:center;">
+            <div style="font-size:13px;font-weight:800;color:${balColor};">${lines.length ? 'Bạn không cần chuyển khoản' : 'Bạn đã cân bằng, không cần chuyển khoản'}</div>
+            ${lines.map(l => `<div style="font-size:12px;color:#334155;margin-top:4px;">${escapeAttr(l)}</div>`).join('')}
+          </div>`;
+      }
+
+      const body = `
+        ${rows.length
+          ? personRowsHtml(rows, `Phần của ${name}`, myTotal, color)
+          : `<div style="font-size:12px;color:#94a3b8;padding:4px 0;">${escapeAttr(name)} chưa tham gia khoản chi nào trong kỳ này.</div>`}
+        <table style="width:100%;border-collapse:collapse;margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;"><tbody><tr>
+          <td style="padding:10px 12px;vertical-align:middle;">
+            <div style="font-size:12px;font-weight:800;color:#0f172a;">Số dư</div>
+            ${formula ? `<div style="font-size:10.5px;color:#64748b;margin-top:2px;line-height:15px;">${escapeAttr(formula)}</div>` : ''}
+          </td>
+          <td style="padding:10px 12px;vertical-align:middle;text-align:right;white-space:nowrap;">
+            <div style="font-size:15px;font-weight:900;color:${balColor};">${Math.abs(bal) < 1 ? '0' : (bal > 0 ? '+' : '-') + formatMoney(Math.abs(bal))} đ</div>
+            <div style="font-size:10px;font-weight:700;color:${balColor};">${balLabel}</div>
+          </td>
+        </tr></tbody></table>
+        ${cards.join('')}
+        ${receiveHtml}`;
+
+      return personBillShell(color, `Phiếu của ${name}`, ledgerState.title || 'Sổ chi tiêu nhóm',
+        `${getLedgerDateRangeDisplay(ledgerState.expenses)} · Tổng chi nhóm ${formatMoney(calc.grandTotal)} đ`, body);
+    }
+
+    // kind: 'single' (1 Bữa) hoặc 'ledger' (Sổ Quỹ)
+    window.openPersonImage = function(kind, name) {
+      if (settlementImageBusy || !name) return;
+      const single = kind === 'single';
+      shareImageJob = {
+        title: `Ảnh của ${name}`,
+        subtitle: single
+          ? `Phần của ${name} và mã QR kèm đúng số tiền cần chuyển`
+          : `Các khoản ${name} tham gia, số dư và mã QR kèm đúng số tiền`,
+        showCopy: false,
+        fileName: () => personImageFileName(name),
+        shareTitle: () => `${single ? (state.title || 'Chia tiền') : (ledgerState.title || 'Sổ chi tiêu')} - ${name}`,
+        build: () => single ? buildSinglePersonBill(name) : buildLedgerPersonBill(name)
+      };
+      openShareImageModal();
     };
 
     // ==================== MAIN RENDER APP ====================
