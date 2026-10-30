@@ -603,7 +603,7 @@
       if (submitBtn) {
         submitBtn.textContent = isPay ? 'Lưu ghi nhận trả nợ' : isDep ? 'Lưu khoản nộp quỹ' : 'Lưu khoản chi';
         submitBtn.className = !isExp
-          ? "w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm shadow-md transition cursor-pointer"
+          ? "w-full py-3.5 bg-indigo-700 hover:bg-indigo-800 active:scale-[0.98] text-white rounded-2xl font-bold text-sm shadow-md transition cursor-pointer"
           : "w-full py-3.5 bg-indigo-700 hover:bg-indigo-800 active:scale-[0.98] text-white rounded-2xl font-bold text-sm shadow-md transition cursor-pointer";
       }
 
@@ -1297,7 +1297,7 @@
         // Dòng STK: bấm để mở ô cài / sửa
         const bankLineHtml = hasBank
           ? `<button type="button" data-mem-action="bank-edit" data-name="${safeName}" class="mt-0.5 inline-flex items-center gap-1.5 text-[11px] py-0.5 cursor-pointer" title="Sửa STK của ${safeName}">
-               <span class="text-emerald-700 font-mono">${escapeAttr(memberBankLabel(bank))}: ${escapeAttr(bank.accountNo)}</span>
+               <span class="text-indigo-700 font-mono">${escapeAttr(memberBankLabel(bank))}: ${escapeAttr(bank.accountNo)}</span>
                <span class="text-indigo-600 font-semibold">Sửa</span>
              </button>`
           : `<button type="button" data-mem-action="bank-edit" data-name="${safeName}" class="mt-0.5 inline-flex items-center text-[11px] py-0.5 text-indigo-600 font-semibold cursor-pointer">

@@ -319,7 +319,7 @@
       if (!state) return;
       const on = Boolean(ledgerState.fundEnabled) || calc.fundActive;
       state.textContent = on ? 'Bật' : 'Tắt';
-      state.className = 'px-1.5 py-0.5 rounded-full text-[10px] font-bold ' + (on ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500');
+      state.className = 'px-1.5 py-0.5 rounded-full text-[10px] font-bold ' + (on ? 'bg-indigo-100 text-indigo-800' : 'bg-slate-100 text-slate-500');
       const manage = document.getElementById('btnMenuFundManage');
       if (manage) manage.classList.toggle('hidden', !on);
     }

@@ -69,7 +69,7 @@
     }
   </script>
 
-  <link rel="stylesheet" href="css/app.css?v=20261030o">
+  <link rel="stylesheet" href="css/app.css?v=20261030p">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-purple-500 selection:text-white">
 
@@ -171,10 +171,10 @@
       </div>
 
       <!-- 2. Thành viên & Cách chia tiền (NỔI RÕ ĐANG CÓ MẤY NGƯỜI) -->
-      <div class="bg-white border-2 border-emerald-500/40 rounded-2xl shadow-xs overflow-hidden">
-        <div class="px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-emerald-100 flex items-center justify-between bg-emerald-50/50 gap-2">
+      <div class="bg-white border-2 border-purple-500/40 rounded-2xl shadow-xs overflow-hidden">
+        <div class="px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-purple-100 flex items-center justify-between bg-purple-50/50 gap-2">
           <div class="flex items-center gap-2 min-w-0">
-            <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
+            <span class="w-6 h-6 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
             <div class="min-w-0">
               <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Thành viên & Cơ chế chia</h2>
               <p class="text-[11px] text-slate-500 hidden sm:block">Ai đã ứng trước, ai chia đều hoặc cố định</p>
@@ -182,7 +182,7 @@
           </div>
 
           <!-- HUY HIỆU TỔNG SỐ NGƯỜI NỔI BẬT LÚC NHẬP LIỆU -->
-          <div class="bg-emerald-600 text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-2xs flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <div class="bg-purple-600 text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-2xs flex items-center gap-1 sm:gap-1.5 shrink-0">
             <span class="text-xs">👥</span>
             <span class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wide">ĐANG CÓ:</span>
             <span id="labelMemberCount" class="text-xs sm:text-base font-black font-mono">1</span>
@@ -233,7 +233,7 @@
             <!-- Member items -->
           </div>
 
-          <button id="btnAddMember" class="w-full py-2 border-2 border-dashed border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 rounded-xl text-xs font-bold text-slate-600 hover:text-emerald-700 transition flex items-center justify-center gap-1.5">
+          <button id="btnAddMember" class="w-full py-2 border-2 border-dashed border-slate-200 hover:border-purple-500 hover:bg-purple-50/50 rounded-xl text-xs font-bold text-slate-600 hover:text-purple-700 transition flex items-center justify-center gap-1.5">
             <span>➕</span> Thêm 1 người tham gia
           </button>
         </div>
@@ -243,7 +243,7 @@
       <div class="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
         <div class="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60 gap-2">
           <div class="flex items-center gap-2 min-w-0">
-            <span class="w-6 h-6 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
+            <span class="w-6 h-6 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
             <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Thông tin chuyển khoản & VietQR</h2>
           </div>
           <span id="badgeCurrentDefault" class="text-[11px] sm:text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0">
@@ -560,7 +560,7 @@
           </div>
           <!-- Progress bar -->
           <div class="h-1.5 w-full bg-slate-200/80 rounded-full overflow-hidden mt-1.5 mb-1.5">
-            <div id="settlementProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
+            <div id="settlementProgressBar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
           </div>
           <p id="settlementHint" class="text-xs text-slate-400">Chạm vào vòng tròn khi người đó đã chuyển tiền.</p>
         </div>
@@ -763,7 +763,7 @@
                 Thêm
               </button>
             </div>
-            <p id="quickAddInModalMsg" class="text-[11px] text-emerald-700 min-h-[1rem]" role="status"></p>
+            <p id="quickAddInModalMsg" class="text-[11px] text-indigo-700 min-h-[1rem]" role="status"></p>
           </div>
 
           <!-- Cách chia: đều, hoặc có người chịu một số tiền cố định (số còn lại chia đều cho những người còn lại) -->
@@ -778,7 +778,7 @@
         <!-- Ghi chú (chỉ tab Trả nợ bù trừ) -->
         <div id="modalNoteSection" class="hidden">
           <label id="labelModalNote" for="inputPaymentNote" class="block text-xs font-semibold text-slate-600 mb-1.5">Ghi chú (tùy chọn)</label>
-          <input type="text" id="inputPaymentNote" maxlength="80" autocomplete="off" placeholder="Ví dụ: Chuyển khoản MB, tiền mặt..." class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none transition">
+          <input type="text" id="inputPaymentNote" maxlength="80" autocomplete="off" placeholder="Ví dụ: Chuyển khoản MB, tiền mặt..." class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:border-indigo-600 focus:outline-none transition">
         </div>
 
         <!-- Dòng xem trước: mỗi người ~X đ / số dư sau khi lưu -->
@@ -975,7 +975,7 @@
         <button type="button" id="btnCloseConfirmPaymentModal" aria-label="Đóng" class="text-slate-400 hover:text-slate-700 w-7 h-7 flex items-center justify-center rounded-full hover:bg-slate-100 text-sm"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
 
-      <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-3 text-xs space-y-2">
+      <div class="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-3 text-xs space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-slate-500 font-medium">Người chuyển (trả nợ):</span>
           <span id="confirmPaymentPayer" class="font-extrabold text-slate-900 text-sm">Hoa</span>
@@ -984,20 +984,20 @@
           <span class="text-slate-500 font-medium">Người nhận (thu nợ):</span>
           <span id="confirmPaymentRecipient" class="font-extrabold text-purple-700 text-sm">Cường</span>
         </div>
-        <div class="flex items-center justify-between pt-1.5 border-t border-emerald-200/60">
+        <div class="flex items-center justify-between pt-1.5 border-t border-indigo-200/60">
           <span class="text-slate-600 font-bold">Số tiền chuyển:</span>
-          <span id="confirmPaymentAmount" class="font-mono font-black text-emerald-700 text-base">460.000 đ</span>
+          <span id="confirmPaymentAmount" class="font-mono font-black text-indigo-700 text-base">460.000 đ</span>
         </div>
       </div>
 
       <div class="space-y-2.5 text-xs">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Ngày thực hiện chuyển:</label>
-          <input type="date" id="confirmPaymentDate" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:border-emerald-600 focus:outline-none">
+          <input type="date" id="confirmPaymentDate" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none">
         </div>
         <div>
           <label class="block font-bold text-slate-700 mb-1">Ghi chú (tùy chọn):</label>
-          <input type="text" id="confirmPaymentNote" placeholder="Ví dụ: Chuyển khoản Vietcombank, tiền mặt..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-emerald-600 focus:outline-none">
+          <input type="text" id="confirmPaymentNote" placeholder="Ví dụ: Chuyển khoản Vietcombank, tiền mặt..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-indigo-600 focus:outline-none">
         </div>
       </div>
 
@@ -1005,7 +1005,7 @@
         <button type="button" id="btnCancelConfirmPayment" class="px-3.5 py-2 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold transition">
           Hủy
         </button>
-        <button type="button" id="btnExecuteConfirmPayment" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-emerald-600/25 transition flex items-center gap-1.5">
+        <button type="button" id="btnExecuteConfirmPayment" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-indigo-600/25 transition flex items-center gap-1.5">
           Xác Nhận Đã Trả
         </button>
       </div>
@@ -1035,7 +1035,7 @@
       </div>
 
       <div class="flex gap-2 pt-1">
-        <button id="btnConfirmArchivePeriod" class="flex-1 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-emerald-500/25 transition">
+        <button id="btnConfirmArchivePeriod" class="flex-1 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-indigo-500/25 transition">
           Chốt kỳ & Sang kỳ mới
         </button>
         <button id="btnCancelArchiveModal" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
@@ -1096,12 +1096,12 @@
   </div>
 
 
-  <script src="js/single.js?v=20261030o"></script>
-  <script src="js/ledger-core.js?v=20261030o"></script>
-  <script src="js/ledger-tabs.js?v=20261030o"></script>
-  <script src="js/images.js?v=20261030o"></script>
-  <script src="js/ledger-forms.js?v=20261030o"></script>
-  <script src="js/ledger-fund.js?v=20261030o"></script>
-  <script src="js/app.js?v=20261030o"></script>
+  <script src="js/single.js?v=20261030p"></script>
+  <script src="js/ledger-core.js?v=20261030p"></script>
+  <script src="js/ledger-tabs.js?v=20261030p"></script>
+  <script src="js/images.js?v=20261030p"></script>
+  <script src="js/ledger-forms.js?v=20261030p"></script>
+  <script src="js/ledger-fund.js?v=20261030p"></script>
+  <script src="js/app.js?v=20261030p"></script>
 </body>
 </html>

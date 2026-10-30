@@ -208,7 +208,7 @@
                 <div class="text-xs font-semibold text-indigo-900">Trả lại tiền quỹ chưa dùng</div>
                 <div class="text-[11px] text-indigo-900/60 leading-relaxed">Tắt thì tiền nộp quỹ cứ để yên trong quỹ. Bật khi muốn trả lại (ví dụ lúc giải tán quỹ): mỗi người thành một dòng ở trên để tick khi đã chuyển.</div>
               </div>
-              <button type="button" role="switch" aria-checked="${refundOn}" aria-label="Trả lại tiền quỹ chưa dùng" onclick="setFundRefund(${!refundOn})" class="relative w-10 h-6 rounded-full shrink-0 transition cursor-pointer ${refundOn ? 'bg-emerald-500' : 'bg-slate-300'}">
+              <button type="button" role="switch" aria-checked="${refundOn}" aria-label="Trả lại tiền quỹ chưa dùng" onclick="setFundRefund(${!refundOn})" class="relative w-10 h-6 rounded-full shrink-0 transition cursor-pointer ${refundOn ? 'bg-indigo-600' : 'bg-slate-300'}">
                 <span class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${refundOn ? 'translate-x-4' : ''}"></span>
               </button>
             </div>`;
@@ -368,7 +368,7 @@
         const headerHtml = `
           <div class="flex items-center justify-between gap-2.5">
             <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center shrink-0">
+              <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-800 font-bold text-xs flex items-center justify-center shrink-0">
                 ${initialLetter}
               </span>
               <div class="min-w-0">

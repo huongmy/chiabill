@@ -48,7 +48,6 @@
         accentText: '#6B21A8',
         cardBg: '#FFFFFF',
         rowAlt: '#F5EEFC',
-        payerText: '#1E6B3E',
         divider: '#6B21A8'
       },
       maroon: {
@@ -56,7 +55,6 @@
         accentText: '#642634',
         cardBg: '#FFFFFF',
         rowAlt: '#F5EFEB',
-        payerText: '#1E6B3E',
         divider: '#642634'
       },
       navy: {
@@ -64,7 +62,6 @@
         accentText: '#1E3A8A',
         cardBg: '#FFFFFF',
         rowAlt: '#EDF2F7',
-        payerText: '#1E6B3E',
         divider: '#1E3A8A'
       },
       emerald: {
@@ -72,7 +69,6 @@
         accentText: '#064E3B',
         cardBg: '#FFFFFF',
         rowAlt: '#EAF3EA',
-        payerText: '#1E6B3E',
         divider: '#064E3B'
       },
       slate: {
@@ -80,7 +76,6 @@
         accentText: '#1E293B',
         cardBg: '#FFFFFF',
         rowAlt: '#F1F5F9',
-        payerText: '#1E6B3E',
         divider: '#1E293B'
       },
       amber: {
@@ -88,7 +83,6 @@
         accentText: '#B45309',
         cardBg: '#FFFFFF',
         rowAlt: '#FEF3C7',
-        payerText: '#1E6B3E',
         divider: '#B45309'
       }
     };
@@ -635,10 +629,10 @@
           row.style.backgroundColor = rowBg;
           row.innerHTML = `
             <div class="flex justify-between items-center">
-              <span class="text-[13px] font-normal" style="color: ${theme.payerText || '#1E6B3E'}">
+              <span class="text-[13px] font-normal" style="color: ${theme.accentText}">
                 ${m.name} (phần của mình)
               </span>
-              <span class="text-[13px] font-bold" style="color: ${theme.payerText || '#1E6B3E'}">
+              <span class="text-[13px] font-bold" style="color: ${theme.accentText}">
                 ${formatMoney(m.share)}
               </span>
             </div>

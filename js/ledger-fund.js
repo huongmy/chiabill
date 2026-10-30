@@ -171,7 +171,7 @@
               <span class="font-semibold text-slate-600">Đã thu ${paidRows.length}/${roster.length} người</span>
               <span class="font-mono font-bold text-emerald-700">${formatMoney(paidSum)} đ</span>
             </div>
-            <div class="h-1.5 w-full bg-slate-200/80 rounded-full overflow-hidden mt-1.5"><div class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: ${percent}%;"></div></div>
+            <div class="h-1.5 w-full bg-slate-200/80 rounded-full overflow-hidden mt-1.5"><div class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: ${percent}%;"></div></div>
             ${members.length === 0
               ? '<p class="mt-3 text-xs text-slate-400">Chưa có thành viên nào. Thêm người ở "Quản lý thành viên & STK".</p>'
               : `<div class="divide-y divide-slate-100 mt-1">${rows}</div>
